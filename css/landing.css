@@ -1,0 +1,175 @@
+.header {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+  padding: 10px 20px;
+  background-color: #f0f0f2;
+}
+
+.h-izquierda {
+    display: flex;
+    gap: 20px;
+
+}
+
+.h-derecha {
+  display: flex;
+  gap: 20px;
+  flex-direction: row-reverse;
+}
+
+.footer{
+    display: grid;
+    grid-template-columns: 1fr 3fr 1fr 1fr 1fr;
+    align-items: center;
+    gap: 20px;
+    background-color: #595959;
+    padding: 20px;
+}
+
+.flexx{
+    display: flex;
+    flex-direction: row;
+    gap: 5px;
+}
+
+.nav{
+    display: grid;
+    grid-template-columns: 1fr;
+}
+
+/* ===== RESET ===== */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* ===== SECCIÓN HERO ===== */
+.hero {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #e6e6e6;
+  padding: 80px 20px;
+}
+
+.hero-text {
+  max-width: 600px;
+}
+
+.hero-text h1 {
+  font-size: 32px;
+  margin-bottom: 10px;
+}
+
+.hero-text p {
+  color: #444;
+  font-size: 14px;
+  margin-bottom: 20px;
+}
+
+.btn {
+  background-color: #222;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.btn:hover {
+  background-color: #444;
+}
+
+/* ===== CATEGORÍAS ===== */
+.categorias {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 30px;
+  padding: 40px 0;
+  background-color: #fff;
+}
+
+.categoria {
+  text-align: center;
+}
+
+.img-placeholder {
+  width: 200px;
+  height: 120px;
+  background-color: #d9d9d9;
+  border-radius: 6px;
+  margin-bottom: 10px;
+}
+
+/* ===== PRODUCTOS ===== */
+.productos {
+  background-color: #efefef;
+  text-align: center;
+  padding: 60px 20px;
+}
+
+.productos h2 {
+  font-size: 28px;
+  margin-bottom: 10px;
+}
+
+.productos p {
+  color: #555;
+  margin-bottom: 40px;
+}
+
+/* ===== GRID DE PRODUCTOS ===== */
+.productos-grid {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.card {
+  position: relative;
+  background-color: #fff;
+  width: 250px;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 0 6px rgba(0,0,0,0.1);
+  text-align: center;
+}
+
+.card h3 {
+  margin: 15px 0 10px;
+  font-size: 16px;
+}
+
+.card p {
+  font-size: 13px;
+  color: #444;
+  margin-bottom: 15px;
+}
+
+.card .btn {
+  width: 100%;
+  font-size: 14px;
+}
+
+/* ===== ETIQUETAS DE PRODUCTOS ===== */
+.etiqueta {
+  position: absolute;
+  top: 15px;
+  left: 15px;
+  background-color: white;
+  border: 1px solid #ccc;
+  border-radius: 50%;
+  padding: 10px;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.etiqueta.descuento {
+  left: auto;
+  right: 15px;
+}
