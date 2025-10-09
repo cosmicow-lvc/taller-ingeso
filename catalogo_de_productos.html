@@ -3,6 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="css/landing.css">
   <title>Catálogo de productos</title>
   <style>
     :root{
@@ -63,6 +64,18 @@
     .empty{padding:32px;text-align:center;color:var(--sub)}
   </style>
 </head>
+<header class = "navbar">
+	<nav class="h-izquierda">
+		<img> Logo
+		<a href="#"> Catalogo </a>
+		<a href="wip.html"> Quienes somos </a>
+		<a href="wip.html"> Contactanos </a>
+	</nav>
+	<div class = "h-derecha">
+		<input type="text" id="barraBuscarProd" placeholder="Buscar Producto">
+		<a href="login.html"> Iniciar sesión</a>
+	</div>
+</header> 
 <body>
   <div class="layout">
     <h1 class="page-title">Filtrar</h1>
@@ -162,8 +175,47 @@
       </main>
     </div>
   </div>
+</body>
+<footer class="footer">
+	<div>
+		<img>Logo
+		<div class = "flexx"> 
+			<img>red1
+			<img>red2
+			<img>red3
+			<img>red4
+		</div>
+	</div>
 
-  <script>
+	<div>
+		<div style="color: white;">Ubicación: Javier Díaz #6969</div>
+		<div style="color: white;">Horarios de atención</div>
+		<div style="color: white;">Lunes a sábado     06:00 - 13:00</div>
+		<div style="color: white;">Domingo            10:00 - 18:00</div>
+	</div>
+
+	<nav class="nav">
+		<p href="wip.html" style="color: white;">Ayuda</p>
+		<a href="wip.html" style="color: white;">Preguntas frecuentes</a>
+		<a href="wip.html" style="color: white;">Políticas de devolución</a>
+		<a href="wip.html" style="color: white;">Contacto</a>
+	</nav>
+	
+	<nav class="nav">
+		<p style="color: white;">Nosotros</p>
+		<a href="wip.html" style="color: white;">Quienes somos</a>
+		<a href="wip.html" style="color: white;">Misión, visión y valores</a>
+		<a href="wip.html" style="color: white;">Historia</a>	
+	</nav>
+	
+	<nav class="nav">
+		<p style="color: white;">Otro</p>
+		<a href="wip.html" style="color: white;">Loren ipsum</a>
+		<a href="wip.html" style="color: white;">Loren ipsum</a>
+		<a href="atencion_al_cliente.html" style="color: white;">Loren ipsum</a>
+	</nav>
+</footer>
+<script>
     // --- Datos de ejemplo ---
     const products = Array.from({length:16}).map((_,i)=>({
       id:i+1,
@@ -320,6 +372,5 @@
     renderBrands();
     renderChips();
     render();
-  </script>
-</body>
+</script>
 </html>

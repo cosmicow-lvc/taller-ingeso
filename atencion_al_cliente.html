@@ -3,6 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="css/landing.css">
   <title>Atención al cliente</title>
   <style>
     :root{
@@ -58,10 +59,22 @@
     }
   </style>
 </head>
-<body>
+<header class = "navbar">
+	<nav class="h-izquierda">
+		<img> Logo
+		<a href="catalogo_de_productos.html"> Catalogo </a>
+		<a href="wip.html"> Quienes somos </a>
+		<a href="wip.html"> Contactanos </a>
+	</nav>
+	<div class = "h-derecha">
+		<input type="text" id="barraBuscarProd" placeholder="Buscar Producto">
+		<a href="login.html"> Iniciar sesión</a>
+	</div>
+</header> 
+<body class="container">
   <div class="layout">
     <div class="topbar">
-      <a href="#" class="back" aria-label="Volver">← Volver</a>
+      <a href="landing.html" class="back" aria-label="Volver">← Volver</a>
     </div>
     <h1 class="title">Atención al cliente</h1>
 
@@ -109,8 +122,9 @@
       </div>
     </article>
   </template>
+</body>
 
-  <script>
+<script>
     // --- Datos de ejemplo ---
     const initial = [
       { id:1, question:"¿Cómo devuelvo mi pedido?", status:"ok", answer:"Puedes iniciar la devolución desde tu perfil > Pedidos > Devolver. Recibirás una etiqueta para el envío.", messages:[] },
@@ -197,6 +211,5 @@
 
     // Init
     render();
-  </script>
-</body>
+</script>
 </html>

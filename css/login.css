@@ -1,4 +1,4 @@
-.header {
+.navbar {
   display: grid;
   grid-template-columns: 1fr 1fr;
   align-items: center;
@@ -126,4 +126,11 @@ h2 {
 
 .registrarse:hover {
   background-color: #f3f3f3;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }

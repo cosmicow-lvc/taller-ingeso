@@ -1,0 +1,109 @@
+<html>
+
+<head>
+  	<title>Mi Página</title>
+  	<link rel="stylesheet" href="css/login.css">
+</head>
+
+<header class = "navbar">
+	<nav class="h-izquierda">
+		<img> Logo
+		<a href="catalogo_de_productos.html"> Catalogo </a>
+		<a href="wip.html"> Quienes somos </a>
+		<a href="wip.html"> Contactanos </a>
+	</nav>
+	<div class = "h-derecha">
+		<input type="text" id="barraBuscarProd" placeholder="Buscar Producto">
+		<a href="#"> Iniciar sesión</a>
+	</div>
+</header> 
+
+<main class="container">
+    <a href="landing.html" class="volver">← Volver</a>
+    <div class="login-box">
+        <div class="logo">Logo</div>
+      	<h2>Iniciar sesión</h2>
+
+      	<form id="loginForm">
+        	<input class="input-principal" type="email" id="email" placeholder="Correo" required>
+        	<input class="input-principal" type="password" id="password" placeholder="Contraseña" required>
+        	<div id="error-message" class="error-message" style="display: none; color: red;"></div>
+        	<a href="#" class="forgot">¿Olvidó la contraseña?</a>
+
+        	<button type="submit" class="btn continuar">Continuar</button>
+        	<button type="button" class="btn registrarse">Registrarse</button>
+      	</form>
+    </div>
+</main>
+
+<footer class="footer">
+	<div>
+		<img>Logo
+		<div class = "flexx"> 
+			<img>red1
+			<img>red2
+			<img>red3
+			<img>red4
+		</div>
+	</div>
+
+	<div>
+		<div style="color: white;">Ubicación: Javier Díaz #6969</div>
+		<div style="color: white;">Horarios de atención</div>
+		<div style="color: white;">Lunes a sábado     06:00 - 13:00</div>
+		<div style="color: white;">Domingo            10:00 - 18:00</div>
+	</div>
+
+	<nav class="nav">
+		<p href="wip.html" style="color: white;">Ayuda</p>
+		<a href="wip.html" style="color: white;">Preguntas frecuentes</a>
+		<a href="wip.html" style="color: white;">Políticas de devolución</a>
+		<a href="wip.html" style="color: white;">Contacto</a>
+	</nav>
+	
+	<nav class="nav">
+		<p style="color: white;">Nosotros</p>
+		<a href="wip.html" style="color: white;">Quienes somos</a>
+		<a href="wip.html" style="color: white;">Misión, visión y valores</a>
+		<a href="wip.html" style="color: white;">Historia</a>	
+	</nav>
+	
+	<nav class="nav">
+		<p style="color: white;">Otro</p>
+		<a href="wip.html" style="color: white;">Loren ipsum</a>
+		<a href="wip.html" style="color: white;">Loren ipsum</a>
+		<a href="atencion_al_cliente.html" style="color: white;">Loren ipsum</a>
+	</nav>
+</footer>
+
+<script>
+document.getElementById('loginForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    
+    const email = document.getElementById('email').value;
+    const password = document.getElementById('password').value;
+    const errorMessage = document.getElementById('error-message');
+    
+    // Credenciales de prueba
+    const validEmail = 'usuario@prueba.com';
+    const validPassword = '123456';
+    
+    // Limpiar mensaje de error previo
+    errorMessage.style.display = 'none';
+    
+    // Validar credenciales
+    if (email === validEmail && password === validPassword) {
+        // Login exitoso
+        alert('¡Login exitoso! Bienvenido');
+        // Redirigir a la página principal o catalogo
+        window.location.href = 'landing.html';
+    } else {
+        // Mostrar error
+        if (email !== validEmail || password !== validPassword) {
+            errorMessage.textContent = 'Credenciales invalidas';
+        }
+        errorMessage.style.display = 'block';
+    }
+});
+</script>
+</html>
