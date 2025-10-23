@@ -1,0 +1,20 @@
+/* Fondo con blobs suaves usando #F2AE30 (ámbar) y #F24F13 (naranja) */
+:root{
+  --bg1:#F2AE30;
+  --bg2:#F24F13;
+}
+
+html,body{height:100%}
+body{
+  margin:0;
+  background:
+    radial-gradient(700px 280px at 18% 18%, rgba(255,255,255,.35), rgba(255,255,255,0) 60%),
+    radial-gradient(1200px 420px at 82% 78%, rgba(255,255,255,.22), rgba(255,255,255,0) 62%),
+    radial-gradient(900px 360px at -12% 82%, rgba(0,0,0,.06), rgba(0,0,0,0) 60%),
+    linear-gradient(120deg, var(--bg1) 0%, var(--bg2) 58%);
+  background-attachment: fixed;
+  min-height:100vh;
+}
+
+/* Contraste de títulos sobre fondo claro */
+h1, .page-title{ color:#0f172a; }
