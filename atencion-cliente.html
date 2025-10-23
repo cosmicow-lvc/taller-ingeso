@@ -1,0 +1,187 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Atención al cliente</title>
+  <link rel="stylesheet" href="./support-ui.css">
+  <style>
+    .volver{
+      display:inline-flex; align-items:center; gap:.5rem;
+      margin:10px 0 6px 4px; text-decoration:none; font-weight:700; color:#1f2937;
+    }
+    .volver:hover{ text-decoration:underline }
+    .panel__header .spacer{ flex:1 }
+    .btn--tiny{ height:32px; padding:0 10px; font-size:13px }
+    .hidden{ display:none !important }
+
+    /* NUEVO: detalles y flecha */
+    .table [aria-label="Ver más"]{ width:40px; padding:0; border-radius:10px }
+    .table [aria-label="Ver más"].is-open{ transform: rotate(90deg); transition: transform .2s ease }
+    .row-details td{ padding:16px 18px; border-top:1px solid rgba(0,0,0,.06) }
+    .answer{ background:rgba(255,255,255,.88); border:1px solid rgba(0,0,0,.06); border-radius:12px; padding:12px }
+    .answer p{ margin:0 0 12px }
+    .textarea{ width:100%; min-height:80px; border:1px solid rgba(0,0,0,.12); border-radius:10px; padding:10px; resize:vertical; background:#fff }
+    .btn--right{ float:right }
+  </style>
+</head>
+<body>
+  <div class="container-support">
+    <a href="#" id="volverLink" class="volver">← Volver</a>
+    <h1>Atención al cliente</h1>
+
+    <section class="panel" aria-label="Listado de preguntas frecuentes">
+      <div class="panel__header">
+        <input id="buscar" class="input" placeholder="Buscar pregunta…" aria-label="Buscar pregunta">
+        <select id="filtro" class="select" aria-label="Filtrar por estatus">
+          <option value="Todos">Todos</option>
+          <option value="Respondido">Respondido</option>
+          <option value="Sin responder">Sin responder</option>
+        </select>
+
+        <div class="spacer"></div>
+
+        <button id="btnClearFiltro" class="btn btn--tiny hidden" title="Quitar filtro">Quitar filtro</button>
+        <button id="btnNueva" class="btn btn--primary">Nueva pregunta</button>
+      </div>
+
+      <table class="table" role="table">
+        <thead>
+          <tr>
+            <th>Pregunta</th>
+            <th>Estatus</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody id="tbody">
+          <tr data-status="Respondido">
+            <td data-col="pregunta"><strong>¿CÓMO DEVUELVO MI PEDIDO?</strong></td>
+            <td>
+              <span class="chip chip--ok"><span class="chip__dot"></span>Respondido</span>
+            </td>
+            <td><button class="btn" aria-label="Ver más">›</button></td>
+          </tr>
+          <tr data-status="Sin responder">
+            <td data-col="pregunta"><strong>¿CÓMO CANCELO MI PEDIDO?</strong></td>
+            <td>
+              <span class="chip chip--wait"><span class="chip__dot"></span>Sin responder</span>
+            </td>
+            <td><button class="btn" aria-label="Ver más">›</button></td>
+          </tr>
+          <tr data-status="Respondido">
+            <td data-col="pregunta"><strong>¿TIENEN ENVÍOS A REGIONES?</strong></td>
+            <td>
+              <span class="chip chip--ok"><span class="chip__dot"></span>Respondido</span>
+            </td>
+            <td><button class="btn" aria-label="Ver más">›</button></td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+  </div>
+
+  <script>
+    // ---- Volver ----
+    document.getElementById('volverLink').addEventListener('click', function(e){
+      e.preventDefault();
+      if (document.referrer) history.back();
+      else window.location.href = '/';
+    });
+
+    const buscar = document.getElementById('buscar');
+    const filtro = document.getElementById('filtro');
+    const clearFiltro = document.getElementById('btnClearFiltro');
+    const tbody = document.getElementById('tbody');
+    const btnNueva = document.getElementById('btnNueva');
+
+    const respuestas = {
+      "¿CÓMO DEVUELVO MI PEDIDO?": "Puedes iniciar la devolución desde tu perfil > Pedidos > Devolver. Recibirás una etiqueta para el envío.",
+      "¿CÓMO CANCELO MI PEDIDO?": "Ve a tu perfil > Pedidos y, si el pedido aún no ha sido enviado, pulsa Cancelar. Si ya salió, gestionaremos la devolución.",
+      "¿TIENEN ENVÍOS A REGIONES?": "Sí, enviamos a todo el país con operadores externos. Los plazos se calculan al finalizar la compra."
+    };
+
+    function aplicaFiltros(){
+      const q = buscar.value.trim().toLowerCase();
+      const st = filtro.value;
+      clearFiltro.classList.toggle('hidden', st === 'Todos');
+
+      Array.from(tbody.querySelectorAll('tr')).forEach(tr => {
+        if (tr.classList.contains('row-details')) return; // se maneja con su fila padre
+        const pregunta = tr.querySelector('[data-col="pregunta"]').textContent.toLowerCase();
+        const status = tr.getAttribute('data-status');
+        const matchTexto = !q || pregunta.includes(q);
+        const matchStatus = (st === 'Todos') || (status === st);
+        const visible = (matchTexto && matchStatus);
+        tr.style.display = visible ? '' : 'none';
+
+        const details = tr.nextElementSibling;
+        if (details && details.classList.contains('row-details')) {
+          // Oculta detalles si el padre se oculta
+          if (!visible) {
+            details.style.display = 'none';
+            const btn = tr.querySelector('[aria-label="Ver más"]');
+            if (btn) btn.classList.remove('is-open');
+          }
+        }
+      });
+    }
+
+    buscar.addEventListener('input', aplicaFiltros);
+    filtro.addEventListener('change', aplicaFiltros);
+    clearFiltro.addEventListener('click', () => { filtro.value = 'Todos'; aplicaFiltros(); });
+
+    // ---- Toggle de detalles con la flecha ----
+    tbody.addEventListener('click', (e) => {
+      const btn = e.target.closest('[aria-label="Ver más"]');
+      if (!btn) return;
+      const tr = btn.closest('tr');
+      const pregunta = tr.querySelector('[data-col="pregunta"]').textContent.trim();
+      let details = tr.nextElementSibling;
+      if (!details || !details.classList.contains('row-details')) {
+        details = document.createElement('tr');
+        details.className = 'row-details';
+        details.innerHTML = `
+          <td colspan="3">
+            <div class="answer">
+              <p>${respuestas[pregunta] || "Respuesta pendiente. Pronto la añadiremos."}</p>
+              <div style="margin-top:10px">
+                <textarea class="textarea" placeholder="Escribe tu mensaje para el cliente…"></textarea>
+                <button class="btn btn--tiny btn--right">Enviar</button>
+              </div>
+            </div>
+          </td>`;
+        tr.parentNode.insertBefore(details, tr.nextSibling);
+      }
+      const isHidden = (details.style.display === 'none' || getComputedStyle(details).display === 'none');
+      details.style.display = isHidden ? '' : 'none';
+      btn.classList.toggle('is-open', isHidden);
+    });
+
+    // ---- Nueva pregunta ----
+    btnNueva.addEventListener('click', () => {
+      const texto = prompt('Escribe la pregunta:');
+      if (!texto) return;
+      const estados = ['Respondido','Sin responder'];
+      let estado = prompt('Estado: escribe "Respondido" o "Sin responder"', 'Sin responder');
+      estado = estados.includes(estado) ? estado : 'Sin responder';
+
+      const tr = document.createElement('tr');
+      tr.setAttribute('data-status', estado);
+      tr.innerHTML = `
+        <td data-col="pregunta"><strong>${texto.trim()}</strong></td>
+        <td>${
+          estado === 'Respondido'
+            ? '<span class="chip chip--ok"><span class="chip__dot"></span>Respondido</span>'
+            : '<span class="chip chip--wait"><span class="chip__dot"></span>Sin responder</span>'
+        }</td>
+        <td><button class="btn" aria-label="Ver más">›</button></td>
+      `;
+      tbody.appendChild(tr);
+      aplicaFiltros();
+    });
+
+    // Inicializa
+    aplicaFiltros();
+  </script>
+</body>
+</html>
