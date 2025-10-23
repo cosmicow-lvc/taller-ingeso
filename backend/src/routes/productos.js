@@ -3,23 +3,23 @@ import db from "../db.js"; // import your database connection
 
 const router = express.Router();
 
-// GET /users → get all users
+// GET /productos → get all productos
 router.get("/", (req, res) => {
-    db.query("SELECT * FROM users", (err, results) => {
+    db.query("SELECT * FROM producto", (err, results) => {
         if (err) return res.status(500).json({ error: err.message });
         res.json(results);
     });
 });
 
-// POST /users → add a new user
+// POST /productos → add a new productos
 router.post("/", (req, res) => {
-    const { name, email } = req.body;
+    const { nombre, descripcion, id_marca, precio_base } = req.body;
     db.query(
-        "INSERT INTO users (name, email) VALUES (?, ?)",
-        [name, email],
+        "INSERT INTO producto (nombre, descripcion, id_marca, precio_base) VALUES (?, ?, ?, ?)",
+        [nombre, descripcion, id_marca, precio_base],
         (err, result) => {
             if (err) return res.status(500).json({ error: err.message });
-            res.json({ id: result.insertId, name, email });
+            res.json({ id: result.insertId, nombre, descripcion, id_marca, precio_base });
         }
     );
 });
