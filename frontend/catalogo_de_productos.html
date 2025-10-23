@@ -220,20 +220,13 @@
 	</nav>
 </footer>
 <script>
-  // Datos de ejemplo
-  const products = Array.from({length:16}).map((_,i)=>({
-    id:i+1,
-    name:["Producto","Gadget","Item","Accesorio"][i%4]+" "+(i+1),
-    price: (i%7+1)*10 + (i%3)*4 + 1,
-    category: ["CAT 1","CAT 2","Accesorios"][i%3],
-    brand: ["Acme","Nova","Zetta","Orion"][i%4],
-    rating: [5,4,4,3,2,5,3,4,5,1,4,2,5,3,4,5][i],
-  }));
+  // Datos cargados desde backend (antes eran estáticos)
+  let products = [];
 
   // Estado
   const state = {selectedCategories:new Set(),minPrice:null,maxPrice:null,q:"",brand:new Set(),rating:"",sort:"featured"};
 
-  // Utils
+  // Utils (igual que antes)
   const $ = sel => document.querySelector(sel);
   const $$ = sel => Array.from(document.querySelectorAll(sel));
 
@@ -363,9 +356,45 @@
 
   $("#sortSelect").addEventListener("change",e=>{state.sort=e.target.value; render();});
 
-  // Init
-  renderBrands();
-  renderChips();
-  render();
+  // Función para cargar productos desde el backend
+  async function loadProducts(){
+    try{
+      // usa http://localhost:3000 si tu server corre en ese puerto (NO https si tu server no está en TLS)
+      const res = await fetch("http://localhost:3000/productos");
+      if(!res.ok) throw new Error(`HTTP ${res.status}`);
+      const payload = await res.json();
+
+      // extraer array que está en la clave `rows`
+      // si el backend devuelve directamente un array, lo usamos también
+      let rows = payload.rows ?? payload;
+      if(!Array.isArray(rows)) {
+        // opción alternativa si el backend anida más (ajusta según tu API)
+        rows = payload.data?.rows ?? payload.productos ?? [];
+      }
+
+      // normalizar campos mínimos esperados (id, name, price, category, brand, rating)
+      products = rows.map(p => ({
+        id:  p.id_producto ?? Date.now(),
+        name: p.nombre ?? "Sin nombre",
+        price: Number(p.precio_base ?? 0),
+        category: p.category ?? p.categoria ?? "Sin categoría",
+        brand: p.brand ?? p.marca ?? "Sin marca",
+        rating: Number(p.promedio_rating ?? 0),
+      }));
+
+      // inicializar UI que depende de products
+      renderBrands();
+      renderChips();
+      render();
+    }catch(err){
+      console.error("Error cargando productos:", err);
+      const grid = document.getElementById('grid');
+      grid.innerHTML = `<div class="empty">No se pudieron cargar los productos. Comprueba que el backend esté en http://localhost:3000 y que /productos devuelva JSON.</div>`;
+      document.getElementById('empty').hidden = false;
+    }
+  }
+
+  // Init: cargar desde backend en lugar de usar datos estáticos
+  loadProducts();
 </script>
 </html>
