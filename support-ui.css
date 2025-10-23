@@ -1,0 +1,54 @@
+:root{
+  --rosa:#BF5471;
+  --amarillo:#F2AE30;
+  --rosa-200:#D77D95;
+  --amarillo-200:#F6C560;
+}
+
+html,body{height:100%}
+body{
+  min-height:100dvh;
+  background:linear-gradient(135deg,
+    var(--amarillo) 0%,
+    var(--amarillo-200) 28%,
+    var(--rosa-200) 72%,
+    var(--rosa) 100%
+  );
+  background-attachment:fixed;
+}
+
+body::before{
+  content:"";
+  position:fixed; inset:0; pointer-events:none;
+  background:
+    radial-gradient(80% 60% at 20% 10%, rgba(255,255,255,.18) 0 60%, transparent 60%),
+    radial-gradient(60% 50% at 80% 90%, rgba(255,255,255,.12) 0 55%, transparent 55%);
+}
+
+.container-support{ max-width:1100px; margin:32px auto; padding:0 16px; }
+.panel{
+  background:rgba(255,255,255,.88);
+  backdrop-filter:blur(6px); -webkit-backdrop-filter:blur(6px);
+  border:1px solid rgba(255,255,255,.6);
+  border-radius:14px; box-shadow:0 12px 32px rgba(0,0,0,.08); overflow:hidden;
+}
+.panel__header{ display:flex; align-items:center; gap:12px; flex-wrap:wrap; padding:16px 18px 8px; }
+.panel__toolbar{ margin-left:auto; display:flex; gap:10px; }
+
+.input,.select{ height:40px; padding:0 12px; border:1px solid rgba(0,0,0,.12); border-radius:10px; outline:none; }
+.input:focus,.select:focus{ border-color:rgba(0,0,0,.22); }
+
+.btn{ height:40px; padding:0 14px; font-weight:600; border:1px solid rgba(0,0,0,.12); background:#fff; border-radius:10px; cursor:pointer; }
+.btn:hover{ filter:brightness(.98) }
+.btn--primary{ background:var(--rosa); color:#fff; border-color:transparent; border-radius:0; }
+.btn--primary:hover{ filter:brightness(.95) }
+
+.table{ width:100%; border-collapse:separate; border-spacing:0 }
+.table thead th{ text-align:left; font-weight:700; color:#111827; font-size:14px; padding:14px 18px; background:rgba(255,255,255,.6); }
+.table tbody td{ padding:16px 18px; border-top:1px solid rgba(0,0,0,.06) }
+.table tbody tr:hover{ background:rgba(0,0,0,.02) }
+
+.chip{ display:inline-flex; align-items:center; gap:8px; line-height:1; padding:6px 10px; font-size:13px; font-weight:600; border-radius:999px; border:1px solid transparent; }
+.chip--ok{ color:#065F46; background:rgba(16,185,129,.15); border-color:rgba(16,185,129,.25) }
+.chip--wait{ color:#7C2D12; background:rgba(245,158,11,.15); border-color:rgba(245,158,11,.25) }
+.chip__dot{ width:8px; height:8px; border-radius:999px; background:currentColor }
