@@ -1,15 +1,24 @@
+/* ===== RESET ===== */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* ===== HEADER ===== */
 .header {
   display: grid;
+  flex-wrap: wrap;
   grid-template-columns: 1fr 1fr;
   align-items: center;
   padding: 10px 20px;
-  background-color: #f0f0f2;
+  background-color: #e9edf5; /* gris azulado claro */
 }
 
 .h-izquierda {
-    display: flex;
-    gap: 20px;
-
+  display: flex;
+  gap: 20px;
 }
 
 .h-derecha {
@@ -18,37 +27,70 @@
   flex-direction: row-reverse;
 }
 
-.footer{
-    display: grid;
-    grid-template-columns: 1fr 3fr 1fr 1fr 1fr;
-    align-items: center;
-    gap: 20px;
-    background-color: #595959;
-    padding: 20px;
+.h-izquierda a,
+.h-derecha a {
+  color: #24325f;
+  text-decoration: none;
+  font-weight: 600;
+  transition: color 0.2s;
 }
 
-.flexx{
-    display: flex;
-    flex-direction: row;
-    gap: 5px;
+.h-izquierda a:hover,
+.h-derecha a:hover {
+  color: #F57242;
 }
 
-.nav{
-    display: grid;
-    grid-template-columns: 1fr;
+#barraBuscarProd {
+  padding: 6px 10px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
 }
 
-.info{
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 5px;
+/* ===== FOOTER ===== */
+.footer {
+  display: grid;
+  grid-template-columns: 1fr 3fr 1fr 1fr 1fr;
+  align-items: center;
+  gap: 20px;
+  background-color: #24325f; /* azul oscuro */
+  padding: 30px 20px;
+  color: #fff;
 }
 
+.flexx {
+  display: flex;
+  flex-direction: row;
+  gap: 5px;
+}
+
+.nav {
+  display: grid;
+  grid-template-columns: 1fr;
+}
+
+.info {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 5px;
+}
+
+.footer a {
+  color: #cfd6ff;
+  text-decoration: none;
+  font-size: 14px;
+}
+
+.footer a:hover {
+  color: #ff9f68;
+}
+
+/* ===== BODY ===== */
 body {
   margin: 0;
-  background-color: #fff;
+  background: linear-gradient(120deg, #ff7a4f, #ff9f68); /* fondo cálido */
 }
 
+/* ===== CONTENEDOR PRINCIPAL ===== */
 .container {
   display: flex;
   flex-direction: column;
@@ -58,72 +100,169 @@ body {
   position: relative;
 }
 
+/* ===== BOTÓN VOLVER ===== */
 .volver {
   position: absolute;
   top: 20px;
   left: 20px;
   text-decoration: none;
-  color: #333;
+  color: #24325f;
   font-size: 14px;
+  font-weight: 600;
+  transition: color 0.2s;
 }
 
+.volver:hover {
+  color: #F57242;
+}
+
+/* ===== CAJA DE LOGIN ===== */
 .login-box {
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 280px;
+  width: 300px;
+  padding: 30px 25px;
+  background-color: #fff;
+  border-radius: 14px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
 }
 
+/* ===== TITULO ===== */
 h2 {
   margin: 10px 0 20px;
-  font-size: 24px;
-  font-weight: normal;
-  color: #222;
+  font-size: 26px;
+  font-weight: 600;
+  color: #24325f;
 }
 
+/* ===== INPUTS ===== */
 .input-principal {
   width: 100%;
   padding: 10px;
-  margin-bottom: 10px;
-  border: 1px solid #ccc;
-  border-radius: 6px;
+  margin-bottom: 12px;
+  border: 1px solid #ccd3eb;
+  border-radius: 8px;
   font-size: 14px;
+  transition: border-color 0.2s;
 }
 
+.input-principal:focus {
+  border-color: #3451e6;
+  outline: none;
+}
+
+/* ===== ENLACE OLVIDÉ CONTRASEÑA ===== */
 .forgot {
   align-self: flex-start;
   font-size: 12px;
-  color: #555;
+  color: #3451e6;
   text-decoration: none;
-  margin-bottom: 10px;
+  margin-bottom: 12px;
+  transition: color 0.2s;
 }
 
+.forgot:hover {
+  color: #F57242;
+}
+
+/* ===== BOTONES ===== */
 .btn {
   width: 100%;
   padding: 10px;
-  margin-bottom: 8px;
+  margin-bottom: 10px;
   border: none;
-  border-radius: 6px;
+  border-radius: 8px;
   font-size: 14px;
   cursor: pointer;
-  transition: 0.3s;
+  transition: 0.3s ease;
+  font-weight: 600;
 }
 
+/* Botón principal (Continuar / Iniciar sesión) */
 .continuar {
-  background-color: #222;
+  background-color: #3451e6;
   color: white;
+  box-shadow: 0 3px 0 #2236c9, 0 10px 20px rgba(15,49,242,0.25);
 }
 
 .continuar:hover {
-  background-color: #444;
+  background-color: #2d43cc;
 }
 
+/* Botón secundario (Registrarse) */
 .registrarse {
-  background-color: white;
-  color: #222;
-  border: 1px solid #999;
+  background-color: #fff;
+  color: #24325f;
+  border: 1px solid #ccd3eb;
 }
 
 .registrarse:hover {
-  background-color: #f3f3f3;
+  background-color: #eef1fd;
+  border-color: #3451e6;
+}
+
+/* ======= RESPONSIVE DESIGN ======= */
+
+/* Pantallas medianas (tablets) */
+@media (max-width: 992px) {
+  .header {
+    grid-template-columns: 1fr;
+    gap: 10px;
+    text-align: center;
+  }
+
+  .h-izquierda, .h-derecha {
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .footer {
+    grid-template-columns: 1fr 1fr;
+    text-align: center;
+    gap: 30px;
+  }
+
+  .footer nav {
+    align-items: center;
+  }
+
+  .info {
+    text-align: center;
+  }
+}
+
+/* Pantallas pequeñas (celulares) */
+@media (max-width: 600px) {
+  .header {
+    padding: 15px;
+  }
+
+  .h-izquierda, .h-derecha {
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+  }
+
+  #barraBuscarProd {
+    width: 90%;
+  }
+
+  .footer {
+    grid-template-columns: 1fr;
+    text-align: center;
+    padding: 20px 10px;
+  }
+
+  .flexx {
+    justify-content: center;
+  }
+
+  .footer nav {
+    margin-top: 10px;
+  }
+
+  .footer p {
+    margin-bottom: 4px;
+  }
 }
