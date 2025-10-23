@@ -3,214 +3,186 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <link rel="stylesheet" href="css/landing.css">
-  <link rel="stylesheet" href="css/commons.css">
   <title>Atención al cliente</title>
+  <link rel="stylesheet" href="css/support-ui.css">
+  <link rel="stylesheet" href="css/commons.css">
   <style>
-    :root{
-      --bg:#f6f7f9;--panel:#fff;--ink:#111827;--muted:#6b7280;--border:#e5e7eb;--brand:#2563eb;--ok:#16a34a;--warn:#f59e0b;--ring:rgba(37,99,235,.25);
-      --radius:14px;--radius-sm:10px;--shadow:0 10px 24px rgba(2,6,23,.06);
+    .volver{
+      display:inline-flex; align-items:center; gap:.5rem;
+      margin:10px 0 6px 4px; text-decoration:none; font-weight:700; color:#1f2937;
     }
-    *{box-sizing:border-box}
-    body{margin:0;font-family:Inter, ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial; background:var(--bg); color:var(--ink)}
-    a{color:inherit;text-decoration:none}
+    .volver:hover{ text-decoration:underline }
+    .panel__header .spacer{ flex:1 }
+    .btn--tiny{ height:32px; padding:0 10px; font-size:13px }
+    .hidden{ display:none !important }
 
-    .layout{max-width:1100px;margin:18px auto;padding:0 16px}
-    .topbar{display:flex;align-items:center;gap:10px;margin:8px 0 18px}
-    .back{display:inline-flex;align-items:center;gap:6px;font-size:14px;color:var(--muted)}
-    .title{font-size:clamp(24px,3.5vw,34px);font-weight:800;margin:6px 0 10px}
-
-    .surface{background:var(--panel);border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden}
-    .header{display:flex;gap:10px;align-items:center;padding:12px;border-bottom:1px solid var(--border);background:#f8fafc}
-
-    .controls{display:flex;gap:10px;flex-wrap:wrap;margin-left:auto}
-    .input, select{border:1px solid var(--border);background:#fff;border-radius:10px;padding:9px 12px;font-size:14px}
-    .btn{border:1px solid var(--border);background:#fff;border-radius:10px;padding:9px 12px;font-size:14px;cursor:pointer}
-    .btn.primary{background:var(--brand);border-color:var(--brand);color:#fff}
-    .btn:focus, .input:focus, select:focus{outline:2px solid var(--ring);outline-offset:2px}
-
-    .row.head{display:grid;grid-template-columns:1fr 170px 46px;gap:10px;padding:10px 14px;border-bottom:1px solid var(--border);color:#374151;font-weight:700}
-    .list{display:block}
-
-    .item{border-bottom:1px solid var(--border)}
-    .summary{display:grid;grid-template-columns:1fr 170px 46px;gap:10px;align-items:center;padding:12px 14px;background:#fff}
-    .q{font-weight:700}
-    .status{font-size:12px;border-radius:999px;border:1px solid var(--border);padding:6px 10px;display:inline-flex;align-items:center;gap:6px;justify-self:start}
-    .status.ok{background:#ecfdf5;color:#065f46;border-color:#a7f3d0}
-    .status.pending{background:#fffbeb;color:#92400e;border-color:#fde68a}
-    .chev{border:1px solid var(--border);border-radius:10px;display:grid;place-items:center;height:36px}
-
-    .details{display:grid;grid-template-rows:0fr;overflow:hidden;transition:grid-template-rows .25s ease, padding .25s ease;background:linear-gradient(#fff,#fff)}
-    .details > div{min-height:0}
-    .item.open .details{grid-template-rows:1fr}
-
-    .body{padding:12px 14px;display:grid;gap:12px;border-top:1px dashed var(--border)}
-    .answer{padding:10px 12px;background:#f9fafb;border:1px solid var(--border);border-radius:10px;font-size:14px}
-
-    .compose{display:grid;grid-template-columns:1fr 120px;gap:10px}
-    textarea{resize:vertical;min-height:42px;max-height:180px}
-
-    .empty{padding:24px;text-align:center;color:var(--muted)}
-
-    /* Responsive */
-    @media (max-width: 720px){
-      .row.head,.summary{grid-template-columns:1fr 130px 42px}
-      .controls{width:100%;justify-content:flex-start}
-      .compose{grid-template-columns:1fr}
-    }
+    /* NUEVO: detalles y flecha */
+    .table [aria-label="Ver más"]{ width:40px; padding:0; border-radius:10px }
+    .table [aria-label="Ver más"].is-open{ transform: rotate(90deg); transition: transform .2s ease }
+    .row-details td{ padding:16px 18px; border-top:1px solid rgba(0,0,0,.06) }
+    .answer{ background:rgba(255,255,255,.88); border:1px solid rgba(0,0,0,.06); border-radius:12px; padding:12px }
+    .answer p{ margin:0 0 12px }
+    .textarea{ width:100%; min-height:80px; border:1px solid rgba(0,0,0,.12); border-radius:10px; padding:10px; resize:vertical; background:#fff }
+    .btn--right{ float:right }
   </style>
 </head>
-<header class = "navbar">
-	<nav class="h-izquierda">
-		<img> Logo
-		<a href="catalogo_de_productos.html"> Catalogo </a>
-		<a href="wip.html"> Quienes somos </a>
-		<a href="wip.html"> Contactanos </a>
-	</nav>
-	<div class = "h-derecha">
-		<input type="text" id="barraBuscarProd" placeholder="Buscar Producto">
-		<a href="login.html"> Iniciar sesión</a>
-	</div>
-</header> 
-<body class="container">
-  <div class="layout">
-    <div class="topbar">
-      <a href="landing.html" class="back" aria-label="Volver">← Volver</a>
-    </div>
-    <h1 class="title">Atención al cliente</h1>
+<body>
+  <div class="container-support">
+    <a href="landing.html" id="volverLink" class="volver">← Volver</a>
+    <h1>Atención al cliente</h1>
 
-    <section class="surface" aria-label="Centro de ayuda">
-      <div class="header">
-        <div class="controls">
-          <input id="search" class="input" type="search" placeholder="Buscar pregunta…" aria-label="Buscar" />
-          <select id="filterStatus" aria-label="Filtrar por estatus">
-            <option value="all">Todos</option>
-            <option value="pending">Sin responder</option>
-            <option value="ok">Respondido</option>
-          </select>
-          <button id="newQuestionBtn" class="btn">Nueva pregunta</button>
-        </div>
+    <section class="panel" aria-label="Listado de preguntas frecuentes">
+      <div class="panel__header">
+        <input id="buscar" class="input" placeholder="Buscar pregunta…" aria-label="Buscar pregunta">
+        <select id="filtro" class="select" aria-label="Filtrar por estatus">
+          <option value="Todos">Todos</option>
+          <option value="Respondido">Respondido</option>
+          <option value="Sin responder">Sin responder</option>
+        </select>
+
+        <div class="spacer"></div>
+
+        <button id="btnClearFiltro" class="btn btn--tiny hidden" title="Quitar filtro">Quitar filtro</button>
+        <button id="btnNueva" class="btn btn--primary">Nueva pregunta</button>
       </div>
 
-      <div class="row head" role="row">
-        <div>Pregunta</div>
-        <div>Estatus</div>
-        <div></div>
-      </div>
-
-      <div id="list" class="list" aria-live="polite"></div>
-      <div id="empty" class="empty" hidden>No se encontraron preguntas.</div>
+      <table class="table" role="table">
+        <thead>
+          <tr>
+            <th>Pregunta</th>
+            <th>Estatus</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody id="tbody">
+          <tr data-status="Respondido">
+            <td data-col="pregunta"><strong>¿CÓMO DEVUELVO MI PEDIDO?</strong></td>
+            <td>
+              <span class="chip chip--ok"><span class="chip__dot"></span>Respondido</span>
+            </td>
+            <td><button class="btn" aria-label="Ver más">›</button></td>
+          </tr>
+          <tr data-status="Sin responder">
+            <td data-col="pregunta"><strong>¿CÓMO CANCELO MI PEDIDO?</strong></td>
+            <td>
+              <span class="chip chip--wait"><span class="chip__dot"></span>Sin responder</span>
+            </td>
+            <td><button class="btn" aria-label="Ver más">›</button></td>
+          </tr>
+          <tr data-status="Respondido">
+            <td data-col="pregunta"><strong>¿TIENEN ENVÍOS A REGIONES?</strong></td>
+            <td>
+              <span class="chip chip--ok"><span class="chip__dot"></span>Respondido</span>
+            </td>
+            <td><button class="btn" aria-label="Ver más">›</button></td>
+          </tr>
+        </tbody>
+      </table>
     </section>
   </div>
 
-  <template id="itemTpl">
-    <article class="item" data-id="">
-      <div class="summary" role="button" aria-expanded="false">
-        <div class="q"></div>
-        <div class="status"></div>
-        <div class="chev" aria-hidden="true">▸</div>
-      </div>
-      <div class="details">
-        <div>
-          <div class="body">
-            <div class="answer" data-role="answer" hidden></div>
-            <div class="compose">
-              <textarea class="input" data-role="textarea" placeholder="Escribe tu mensaje para el cliente…"></textarea>
-              <button class="btn primary" data-role="send">Enviar</button>
-            </div>
-          </div>
-        </div>
-      </div>
-    </article>
-  </template>
-</body>
-
-<script>
-    // --- Datos de ejemplo ---
-    const initial = [
-      { id:1, question:"¿Cómo devuelvo mi pedido?", status:"ok", answer:"Puedes iniciar la devolución desde tu perfil > Pedidos > Devolver. Recibirás una etiqueta para el envío.", messages:[] },
-      { id:2, question:"¿Cómo cancelo mi pedido?", status:"pending", answer:"", messages:[] },
-      { id:3, question:"¿Cuáles son los métodos de pago?", status:"ok", answer:"Aceptamos tarjetas, transferencia y pago en efectivo en puntos autorizados.", messages:[] },
-    ];
-
-    // --- Estado ---
-    const state = {
-      items:[...initial],
-      search:"",
-      filter:"all",
-    };
-
-    const $ = sel=>document.querySelector(sel);
-    const listEl = $("#list");
-
-    function badge(status){
-      const base = `status ${status==='ok'?'ok':'pending'}`;
-      const label = status==='ok'?'Respondido':'Sin responder';
-      return `<span class="${base}">● ${label}</span>`;
-    }
-
-    function itemView(data){
-      const tpl = document.getElementById('itemTpl');
-      const el = tpl.content.firstElementChild.cloneNode(true);
-      el.dataset.id = data.id;
-      el.querySelector('.q').textContent = data.question.toUpperCase();
-      el.querySelector('.status').innerHTML = badge(data.status);
-      const summary = el.querySelector('.summary');
-      const answer = el.querySelector('[data-role=answer]');
-      const textarea = el.querySelector('[data-role=textarea]');
-      const sendBtn = el.querySelector('[data-role=send]');
-
-      if(data.answer){
-        answer.hidden=false; answer.textContent = data.answer;
-      }
-
-      summary.addEventListener('click', ()=>toggle(el));
-      sendBtn.addEventListener('click', ()=>{
-        const txt = textarea.value.trim();
-        if(!txt) { textarea.focus(); return; }
-        // Guardar como respuesta y cerrar composer
-        data.answer = txt; data.status = 'ok'; textarea.value='';
-        render();
-        // (Aquí podrías enviar al backend por fetch())
-      });
-
-      return el;
-    }
-
-    function toggle(item){
-      const open = item.classList.toggle('open');
-      item.querySelector('.summary').setAttribute('aria-expanded', open);
-      item.querySelector('.chev').textContent = open ? '▾' : '▸';
-    }
-
-    function applyFilters(items){
-      return items.filter(it=>{
-        if(state.filter!=='all' && it.status!==state.filter) return false;
-        if(state.search && !it.question.toLowerCase().includes(state.search.toLowerCase())) return false;
-        return true;
-      });
-    }
-
-    function render(){
-      const items = applyFilters(state.items);
-      listEl.innerHTML = '';
-      items.forEach(it=>listEl.appendChild(itemView(it)));
-      const empty = document.getElementById('empty');
-      empty.hidden = items.length>0;
-    }
-
-    // --- Controles ---
-    document.getElementById('search').addEventListener('input', e=>{state.search=e.target.value; render();});
-    document.getElementById('filterStatus').addEventListener('change', e=>{state.filter=e.target.value; render();});
-
-    document.getElementById('newQuestionBtn').addEventListener('click', ()=>{
-      const q = prompt('Escribe la nueva pregunta del cliente:');
-      if(!q) return;
-      state.items.unshift({id:Date.now(), question:q, status:'pending', answer:'', messages:[]});
-      render();
+  <script>
+    // ---- Volver ----
+    document.getElementById('volverLink').addEventListener('click', function(e){
+      e.preventDefault();
+      if (document.referrer) history.back();
+      else window.location.href = '/';
     });
 
-    // Init
-    render();
-</script>
+    const buscar = document.getElementById('buscar');
+    const filtro = document.getElementById('filtro');
+    const clearFiltro = document.getElementById('btnClearFiltro');
+    const tbody = document.getElementById('tbody');
+    const btnNueva = document.getElementById('btnNueva');
+
+    const respuestas = {
+      "¿CÓMO DEVUELVO MI PEDIDO?": "Puedes iniciar la devolución desde tu perfil > Pedidos > Devolver. Recibirás una etiqueta para el envío.",
+      "¿CÓMO CANCELO MI PEDIDO?": "Ve a tu perfil > Pedidos y, si el pedido aún no ha sido enviado, pulsa Cancelar. Si ya salió, gestionaremos la devolución.",
+      "¿TIENEN ENVÍOS A REGIONES?": "Sí, enviamos a todo el país con operadores externos. Los plazos se calculan al finalizar la compra."
+    };
+
+    function aplicaFiltros(){
+      const q = buscar.value.trim().toLowerCase();
+      const st = filtro.value;
+      clearFiltro.classList.toggle('hidden', st === 'Todos');
+
+      Array.from(tbody.querySelectorAll('tr')).forEach(tr => {
+        if (tr.classList.contains('row-details')) return; // se maneja con su fila padre
+        const pregunta = tr.querySelector('[data-col="pregunta"]').textContent.toLowerCase();
+        const status = tr.getAttribute('data-status');
+        const matchTexto = !q || pregunta.includes(q);
+        const matchStatus = (st === 'Todos') || (status === st);
+        const visible = (matchTexto && matchStatus);
+        tr.style.display = visible ? '' : 'none';
+
+        const details = tr.nextElementSibling;
+        if (details && details.classList.contains('row-details')) {
+          // Oculta detalles si el padre se oculta
+          if (!visible) {
+            details.style.display = 'none';
+            const btn = tr.querySelector('[aria-label="Ver más"]');
+            if (btn) btn.classList.remove('is-open');
+          }
+        }
+      });
+    }
+
+    buscar.addEventListener('input', aplicaFiltros);
+    filtro.addEventListener('change', aplicaFiltros);
+    clearFiltro.addEventListener('click', () => { filtro.value = 'Todos'; aplicaFiltros(); });
+
+    // ---- Toggle de detalles con la flecha ----
+    tbody.addEventListener('click', (e) => {
+      const btn = e.target.closest('[aria-label="Ver más"]');
+      if (!btn) return;
+      const tr = btn.closest('tr');
+      const pregunta = tr.querySelector('[data-col="pregunta"]').textContent.trim();
+      let details = tr.nextElementSibling;
+      if (!details || !details.classList.contains('row-details')) {
+        details = document.createElement('tr');
+        details.className = 'row-details';
+        details.innerHTML = `
+          <td colspan="3">
+            <div class="answer">
+              <p>${respuestas[pregunta] || "Respuesta pendiente. Pronto la añadiremos."}</p>
+              <div style="margin-top:10px">
+                <textarea class="textarea" placeholder="Escribe tu mensaje para el cliente…"></textarea>
+                <button class="btn btn--tiny btn--right">Enviar</button>
+              </div>
+            </div>
+          </td>`;
+        tr.parentNode.insertBefore(details, tr.nextSibling);
+      }
+      const isHidden = (details.style.display === 'none' || getComputedStyle(details).display === 'none');
+      details.style.display = isHidden ? '' : 'none';
+      btn.classList.toggle('is-open', isHidden);
+    });
+
+    // ---- Nueva pregunta ----
+    btnNueva.addEventListener('click', () => {
+      const texto = prompt('Escribe la pregunta:');
+      if (!texto) return;
+      const estados = ['Respondido','Sin responder'];
+      let estado = prompt('Estado: escribe "Respondido" o "Sin responder"', 'Sin responder');
+      estado = estados.includes(estado) ? estado : 'Sin responder';
+
+      const tr = document.createElement('tr');
+      tr.setAttribute('data-status', estado);
+      tr.innerHTML = `
+        <td data-col="pregunta"><strong>${texto.trim()}</strong></td>
+        <td>${
+          estado === 'Respondido'
+            ? '<span class="chip chip--ok"><span class="chip__dot"></span>Respondido</span>'
+            : '<span class="chip chip--wait"><span class="chip__dot"></span>Sin responder</span>'
+        }</td>
+        <td><button class="btn" aria-label="Ver más">›</button></td>
+      `;
+      tbody.appendChild(tr);
+      aplicaFiltros();
+    });
+
+    // Inicializa
+    aplicaFiltros();
+  </script>
+</body>
 </html>
