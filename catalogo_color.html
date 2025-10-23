@@ -4,6 +4,8 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Catálogo de productos</title>
+  <!-- Fondo con blobs (#F2AE30, #F24F13) -->
+  <link rel="stylesheet" href="estilo.css">
   <style>
     :root{
       --rose:#BF5471; --blue:#0F31F2; --indigo:#3D58F2; --amber:#F2AE30; --orange:#F24F13;
@@ -13,17 +15,12 @@
 
     *{box-sizing:border-box}
     html,body{height:100%}
-    body{
-      margin:0;
-      color:var(--ink);
-      font-family:Inter, system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, Helvetica, Arial;
-      background:#F57242;
-      min-height:100vh;
-    }
+    body{margin:0;color:var(--ink);font-family:Inter, system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, Helvetica, Arial;min-height:100vh}
 
     .layout{max-width:1200px;margin:28px auto;padding:0 16px}
-    .page-title{font-size:clamp(22px,3vw,30px);font-weight:800;margin:8px 0 14px;color:#fff}
+    .page-title{font-size:clamp(22px,3vw,30px);font-weight:800;margin:8px 0 14px;color:#0f172a}
 
+    /* Toolbar + chips */
     .toolbar{display:flex;gap:12px;align-items:center;flex-wrap:wrap;justify-content:space-between;margin-bottom:14px}
     .chips{display:flex;gap:10px;flex-wrap:wrap}
     .chip{padding:6px 10px;border-radius:999px;background:#fff;border:1px solid var(--border);font-size:12px;font-weight:700;display:inline-flex;align-items:center;gap:6px}
@@ -31,9 +28,11 @@
     .sort{margin-left:auto;display:flex;align-items:center;gap:8px}
     select{appearance:none;border:1px solid var(--border);background:#fff;padding:10px 12px;border-radius:12px;font-size:14px;box-shadow:0 2px 0 rgba(0,0,0,.02)}
 
+    /* Layout */
     .content{display:grid;grid-template-columns:280px 1fr;gap:18px}
     @media (max-width: 900px){.content{grid-template-columns:1fr}.sidebar{order:2}}
 
+    /* Sidebar / filtros */
     .sidebar{position:sticky;top:10px;align-self:start;background:var(--panel);border:1px solid var(--border);border-radius:var(--radius);padding:10px;box-shadow:var(--shadow)}
     .filter-header{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:var(--radius-sm);font-weight:800;background:linear-gradient(90deg, rgba(15,49,242,.06), rgba(242,174,48,.06))}
 
@@ -47,11 +46,13 @@
     .search-in-filter{width:100%;padding:9px 11px;border:1px solid var(--border);border-radius:12px;background:#fff}
     .search-in-filter:focus{outline:2px solid var(--ring);outline-offset:2px}
 
+    /* Grid */
     .grid{display:grid;grid-template-columns:repeat(4, 1fr);gap:18px}
     @media (max-width: 1200px){.grid{grid-template-columns:repeat(3, 1fr)}}
     @media (max-width: 800px){.grid{grid-template-columns:repeat(2, 1fr)}}
     @media (max-width: 520px){.grid{grid-template-columns:1fr}}
 
+    /* Tarjetas */
     .card{background:var(--panel);border:1px solid var(--border);border-radius:22px;box-shadow:var(--shadow);overflow:hidden;display:flex;flex-direction:column}
     .thumb{aspect-ratio: 4/3;background:radial-gradient(1200px 220px at -10% 110%, rgba(242,174,48,.35), transparent 50%), linear-gradient(135deg, var(--indigo), var(--blue));display:grid;place-items:center;color:white;letter-spacing:.05em}
     .thumb span{font-size:12px;opacity:.9}
@@ -60,7 +61,9 @@
     .price{font-size:12px;background:linear-gradient(180deg, #fff7e6, #feefcc);display:inline-block;padding:6px 10px;border-radius:999px;border:1px solid #f9e1a6;color:#9a6b00}
     .meta{display:flex;justify-content:space-between;align-items:center}
 
+    /* Botones */
     .btn{appearance:none;border:0;background:#fff;border-radius:14px;padding:10px 14px;font-size:13px;font-weight:800;cursor:pointer;transition:.18s ease;box-shadow:0 2px 0 rgba(0,0,0,.05), 0 10px 16px rgba(0,0,0,.06)}
+    .btn:focus{outline:3px solid var(--ring);outline-offset:2px}
     .btn.primary{color:#fff;background:linear-gradient(180deg, var(--indigo), var(--blue));box-shadow:0 2px 0 #0e2ae1, 0 14px 24px rgba(15,49,242,.25);border-radius:0}
     .btn.primary:hover{filter:saturate(1.05); box-shadow:0 2px 0 #0e2ae1, 0 18px 28px rgba(15,49,242,.3)}
 
@@ -70,6 +73,7 @@
 <body>
   <div class="layout">
     <h1 class="page-title">Catálogo</h1>
+
     <div class="toolbar">
       <div class="chips" id="activeChips" aria-live="polite"></div>
       <div class="sort">
@@ -84,12 +88,15 @@
     </div>
 
     <div class="content">
+      <!-- Sidebar / Filtros -->
       <aside class="sidebar" aria-label="Filtros del catálogo">
         <div class="filter-header">Filtros</div>
+
         <div class="accordion" id="filters">
           <section class="acc-item open" data-key="category">
             <button class="acc-button" type="button" aria-expanded="true">
-              <span>Categoría</span><span>▾</span>
+              <span>Categoría</span>
+              <span>▾</span>
             </button>
             <div class="acc-content">
               <div>
@@ -99,6 +106,7 @@
               </div>
             </div>
           </section>
+
           <section class="acc-item" data-key="price">
             <button class="acc-button" type="button" aria-expanded="false">
               <span>Precio</span><span>▸</span>
@@ -113,6 +121,7 @@
               </div>
             </div>
           </section>
+
           <section class="acc-item" data-key="q">
             <button class="acc-button" type="button" aria-expanded="false">
               <span>Buscar</span><span>▸</span>
@@ -123,6 +132,7 @@
               </div>
             </div>
           </section>
+
           <section class="acc-item" data-key="brand">
             <button class="acc-button" type="button" aria-expanded="false">
               <span>Marca</span><span>▸</span>
@@ -146,13 +156,17 @@
           </section>
         </div>
       </aside>
+
+      <!-- Grid de productos -->
       <main>
         <div id="grid" class="grid" aria-live="polite"></div>
         <div id="empty" class="empty" hidden>No hay productos que coincidan con los filtros.</div>
       </main>
     </div>
   </div>
+
   <script>
+    // Datos de ejemplo
     const products = Array.from({length:16}).map((_,i)=>({
       id:i+1,
       name:["Producto","Gadget","Item","Accesorio"][i%4]+" "+(i+1),
@@ -162,11 +176,14 @@
       rating: [5,4,4,3,2,5,3,4,5,1,4,2,5,3,4,5][i],
     }));
 
+    // Estado
     const state = {selectedCategories:new Set(),minPrice:null,maxPrice:null,q:"",brand:new Set(),rating:"",sort:"featured"};
 
+    // Utils
     const $ = sel => document.querySelector(sel);
     const $$ = sel => Array.from(document.querySelectorAll(sel));
 
+    // Chips de filtros activos
     function renderChips(){
       const wrap = document.getElementById('activeChips');
       wrap.innerHTML = '';
@@ -204,6 +221,7 @@
       render();
     }
 
+    // Filtrado + orden
     function applyFilters(list){
       return list.filter(p=>{
         if(state.selectedCategories.size && !state.selectedCategories.has(p.category)) return false;
@@ -228,11 +246,12 @@
       return list.sort(byRating);
     }
 
+    // Render de tarjeta
     function productCard(p){
       return `<article class="card" data-id="${p.id}">
-        <div class="thumb"><span>Imagen</span></div>
+        <div class="thumb" role="img" aria-label="Imagen de ${p.name}"><span>Imagen</span></div>
         <div class="card-body">
-          <div class="title">${p.name}</div>
+          <div class="title" title="${p.name}">${p.name}</div>
           <div class="meta">
             <span class="price">$${p.price}</span>
             <button class="btn primary">Agregar</button>
@@ -245,11 +264,12 @@
     function render(){
       const grid=$("#grid");
       const empty=$("#empty");
-      const filtered=sortItems(applyFilters(products.slice()))
+      const filtered=sortItems(applyFilters(products.slice()));
       grid.innerHTML=filtered.map(productCard).join("");
       empty.hidden=filtered.length>0;
     }
 
+    // Eventos
     $$("#filters [data-key='category'] input[type=checkbox]").forEach(cb=>cb.addEventListener("change",e=>{
       if(e.target.checked) state.selectedCategories.add(e.target.value); else state.selectedCategories.delete(e.target.value);
       renderChips();
@@ -289,6 +309,7 @@
 
     $("#sortSelect").addEventListener("change",e=>{state.sort=e.target.value; render();});
 
+    // Init
     renderBrands();
     renderChips();
     render();
