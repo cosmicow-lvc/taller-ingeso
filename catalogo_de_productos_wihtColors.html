@@ -1,0 +1,297 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Catálogo de productos</title>
+  <style>
+    :root{
+      --rose:#BF5471; --blue:#0F31F2; --indigo:#3D58F2; --amber:#F2AE30; --orange:#F24F13;
+      --panel:#ffffff; --ink:#0f172a; --sub:#6b7280; --border:#e5e7eb; --ring:rgba(15,49,242,.25);
+      --shadow:0 12px 28px rgba(2,6,23,.08); --radius:16px; --radius-sm:12px;
+    }
+
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      color:var(--ink);
+      font-family:Inter, system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, Helvetica, Arial;
+      background:#F57242;
+      min-height:100vh;
+    }
+
+    .layout{max-width:1200px;margin:28px auto;padding:0 16px}
+    .page-title{font-size:clamp(22px,3vw,30px);font-weight:800;margin:8px 0 14px;color:#fff}
+
+    .toolbar{display:flex;gap:12px;align-items:center;flex-wrap:wrap;justify-content:space-between;margin-bottom:14px}
+    .chips{display:flex;gap:10px;flex-wrap:wrap}
+    .chip{padding:6px 10px;border-radius:999px;background:#fff;border:1px solid var(--border);font-size:12px;font-weight:700;display:inline-flex;align-items:center;gap:6px}
+    .chip .x{cursor:pointer;opacity:.7}
+    .sort{margin-left:auto;display:flex;align-items:center;gap:8px}
+    select{appearance:none;border:1px solid var(--border);background:#fff;padding:10px 12px;border-radius:12px;font-size:14px;box-shadow:0 2px 0 rgba(0,0,0,.02)}
+
+    .content{display:grid;grid-template-columns:280px 1fr;gap:18px}
+    @media (max-width: 900px){.content{grid-template-columns:1fr}.sidebar{order:2}}
+
+    .sidebar{position:sticky;top:10px;align-self:start;background:var(--panel);border:1px solid var(--border);border-radius:var(--radius);padding:10px;box-shadow:var(--shadow)}
+    .filter-header{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:var(--radius-sm);font-weight:800;background:linear-gradient(90deg, rgba(15,49,242,.06), rgba(242,174,48,.06))}
+
+    .accordion{border-top:1px dashed var(--border)}
+    .acc-item{border-bottom:1px dashed var(--border)}
+    .acc-button{width:100%;text-align:left;padding:12px 10px;background:none;border:0;display:flex;justify-content:space-between;align-items:center;font-weight:700;cursor:pointer}
+    .acc-content{display:grid;grid-template-rows:0fr;transition:grid-template-rows .25s ease;overflow:hidden;padding:0 10px}
+    .acc-content > div{min-height:0}
+    .acc-item.open .acc-content{grid-template-rows:1fr;padding-bottom:10px}
+    .check{display:flex;align-items:center;gap:8px;margin:6px 0}
+    .search-in-filter{width:100%;padding:9px 11px;border:1px solid var(--border);border-radius:12px;background:#fff}
+    .search-in-filter:focus{outline:2px solid var(--ring);outline-offset:2px}
+
+    .grid{display:grid;grid-template-columns:repeat(4, 1fr);gap:18px}
+    @media (max-width: 1200px){.grid{grid-template-columns:repeat(3, 1fr)}}
+    @media (max-width: 800px){.grid{grid-template-columns:repeat(2, 1fr)}}
+    @media (max-width: 520px){.grid{grid-template-columns:1fr}}
+
+    .card{background:var(--panel);border:1px solid var(--border);border-radius:22px;box-shadow:var(--shadow);overflow:hidden;display:flex;flex-direction:column}
+    .thumb{aspect-ratio: 4/3;background:radial-gradient(1200px 220px at -10% 110%, rgba(242,174,48,.35), transparent 50%), linear-gradient(135deg, var(--indigo), var(--blue));display:grid;place-items:center;color:white;letter-spacing:.05em}
+    .thumb span{font-size:12px;opacity:.9}
+    .card-body{padding:12px 14px;display:grid;gap:10px}
+    .title{font-size:15px;font-weight:800;line-height:1.25;min-height:38px}
+    .price{font-size:12px;background:linear-gradient(180deg, #fff7e6, #feefcc);display:inline-block;padding:6px 10px;border-radius:999px;border:1px solid #f9e1a6;color:#9a6b00}
+    .meta{display:flex;justify-content:space-between;align-items:center}
+
+    .btn{appearance:none;border:0;background:#fff;border-radius:14px;padding:10px 14px;font-size:13px;font-weight:800;cursor:pointer;transition:.18s ease;box-shadow:0 2px 0 rgba(0,0,0,.05), 0 10px 16px rgba(0,0,0,.06)}
+    .btn.primary{color:#fff;background:linear-gradient(180deg, var(--indigo), var(--blue));box-shadow:0 2px 0 #0e2ae1, 0 14px 24px rgba(15,49,242,.25);border-radius:0}
+    .btn.primary:hover{filter:saturate(1.05); box-shadow:0 2px 0 #0e2ae1, 0 18px 28px rgba(15,49,242,.3)}
+
+    .empty{padding:32px;text-align:center;color:var(--sub)}
+  </style>
+</head>
+<body>
+  <div class="layout">
+    <h1 class="page-title">Catálogo</h1>
+    <div class="toolbar">
+      <div class="chips" id="activeChips" aria-live="polite"></div>
+      <div class="sort">
+        <select id="sortSelect" aria-label="Ordenar por">
+          <option value="featured">Destacados</option>
+          <option value="price-asc">Precio: menor a mayor</option>
+          <option value="price-desc">Precio: mayor a menor</option>
+          <option value="name-asc">Nombre A-Z</option>
+          <option value="name-desc">Nombre Z-A</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="content">
+      <aside class="sidebar" aria-label="Filtros del catálogo">
+        <div class="filter-header">Filtros</div>
+        <div class="accordion" id="filters">
+          <section class="acc-item open" data-key="category">
+            <button class="acc-button" type="button" aria-expanded="true">
+              <span>Categoría</span><span>▾</span>
+            </button>
+            <div class="acc-content">
+              <div>
+                <div class="check"><input type="checkbox" value="CAT 1" id="cat1"><label for="cat1">CAT 1</label></div>
+                <div class="check"><input type="checkbox" value="CAT 2" id="cat2"><label for="cat2">CAT 2</label></div>
+                <div class="check"><input type="checkbox" value="Accesorios" id="cat3"><label for="cat3">Accesorios</label></div>
+              </div>
+            </div>
+          </section>
+          <section class="acc-item" data-key="price">
+            <button class="acc-button" type="button" aria-expanded="false">
+              <span>Precio</span><span>▸</span>
+            </button>
+            <div class="acc-content">
+              <div>
+                <div style="display:flex;gap:8px;align-items:center">
+                  <input class="search-in-filter" id="minPrice" type="number" min="0" placeholder="Mín" style="max-width:110px" />
+                  <input class="search-in-filter" id="maxPrice" type="number" min="0" placeholder="Máx" style="max-width:110px" />
+                  <button class="btn" id="applyPrice">Aplicar</button>
+                </div>
+              </div>
+            </div>
+          </section>
+          <section class="acc-item" data-key="q">
+            <button class="acc-button" type="button" aria-expanded="false">
+              <span>Buscar</span><span>▸</span>
+            </button>
+            <div class="acc-content">
+              <div>
+                <input id="q" class="search-in-filter" type="search" placeholder="Nombre del producto…" />
+              </div>
+            </div>
+          </section>
+          <section class="acc-item" data-key="brand">
+            <button class="acc-button" type="button" aria-expanded="false">
+              <span>Marca</span><span>▸</span>
+            </button>
+            <div class="acc-content">
+              <div id="brandList"></div>
+            </div>
+          </section>
+          <section class="acc-item" data-key="rating">
+            <button class="acc-button" type="button" aria-expanded="false">
+              <span>Rating</span><span>▸</span>
+            </button>
+            <div class="acc-content">
+              <div>
+                <div class="check"><input type="radio" name="rating" value="4" id="r4"><label for="r4">4★ o más</label></div>
+                <div class="check"><input type="radio" name="rating" value="3" id="r3"><label for="r3">3★ o más</label></div>
+                <div class="check"><input type="radio" name="rating" value="2" id="r2"><label for="r2">2★ o más</label></div>
+                <div class="check"><input type="radio" name="rating" value="" id="rall"><label for="rall">Todos</label></div>
+              </div>
+            </div>
+          </section>
+        </div>
+      </aside>
+      <main>
+        <div id="grid" class="grid" aria-live="polite"></div>
+        <div id="empty" class="empty" hidden>No hay productos que coincidan con los filtros.</div>
+      </main>
+    </div>
+  </div>
+  <script>
+    const products = Array.from({length:16}).map((_,i)=>({
+      id:i+1,
+      name:["Producto","Gadget","Item","Accesorio"][i%4]+" "+(i+1),
+      price: (i%7+1)*10 + (i%3)*4 + 1,
+      category: ["CAT 1","CAT 2","Accesorios"][i%3],
+      brand: ["Acme","Nova","Zetta","Orion"][i%4],
+      rating: [5,4,4,3,2,5,3,4,5,1,4,2,5,3,4,5][i],
+    }));
+
+    const state = {selectedCategories:new Set(),minPrice:null,maxPrice:null,q:"",brand:new Set(),rating:"",sort:"featured"};
+
+    const $ = sel => document.querySelector(sel);
+    const $$ = sel => Array.from(document.querySelectorAll(sel));
+
+    function renderChips(){
+      const wrap = document.getElementById('activeChips');
+      wrap.innerHTML = '';
+      const chips = [];
+      if(state.selectedCategories.size){
+        [...state.selectedCategories].forEach(v=>chips.push({key:'category', label:`Cat: ${v}`, value:v}));
+      }
+      if(state.brand.size){
+        [...state.brand].forEach(v=>chips.push({key:'brand', label:`Marca: ${v}`, value:v}));
+      }
+      if(state.minPrice!=null || state.maxPrice!=null){
+        chips.push({key:'price', label:`Precio: ${state.minPrice??'-'} – ${state.maxPrice??'-'}`, value:'price'});
+      }
+      if(state.q){ chips.push({key:'q', label:`Buscar: ${state.q}`, value:'q'}); }
+      if(state.rating){ chips.push({key:'rating', label:`${state.rating}★+`, value:'rating'}); }
+
+      chips.forEach(c=>{
+        const btn=document.createElement('button');
+        btn.className='chip';
+        btn.innerHTML=`${c.label} <span class="x">✕</span>`;
+        btn.addEventListener('click',()=>removeFilter(c));
+        wrap.appendChild(btn);
+      });
+    }
+
+    function removeFilter(chip){
+      switch(chip.key){
+        case 'category': state.selectedCategories.delete(chip.value); $(`#filters [data-key='category'] input[value="${chip.value}"]`).checked=false; break;
+        case 'brand': state.brand.delete(chip.value); $(`#brandList input[value="${chip.value}"]`).checked=false; break;
+        case 'price': state.minPrice=null; state.maxPrice=null; $('#minPrice').value=''; $('#maxPrice').value=''; break;
+        case 'q': state.q=''; $('#q').value=''; break;
+        case 'rating': state.rating=''; $('#rall').checked=true; break;
+      }
+      renderChips();
+      render();
+    }
+
+    function applyFilters(list){
+      return list.filter(p=>{
+        if(state.selectedCategories.size && !state.selectedCategories.has(p.category)) return false;
+        if(state.brand.size && !state.brand.has(p.brand)) return false;
+        if(state.minPrice!=null && p.price < state.minPrice) return false;
+        if(state.maxPrice!=null && p.price > state.maxPrice) return false;
+        if(state.q && !p.name.toLowerCase().includes(state.q.toLowerCase())) return false;
+        if(state.rating && p.rating < Number(state.rating)) return false;
+        return true;
+      });
+    }
+
+    function sortItems(list){
+      const s=state.sort;
+      const byName=(a,b)=>a.name.localeCompare(b.name,'es',{sensitivity:'base'});
+      const byPrice=(a,b)=>a.price-b.price;
+      const byRating=(a,b)=>b.rating-a.rating;
+      if(s==='price-asc') return list.sort(byPrice);
+      if(s==='price-desc') return list.sort((a,b)=>byPrice(b,a));
+      if(s==='name-asc') return list.sort(byName);
+      if(s==='name-desc') return list.sort((a,b)=>byName(b,a));
+      return list.sort(byRating);
+    }
+
+    function productCard(p){
+      return `<article class="card" data-id="${p.id}">
+        <div class="thumb"><span>Imagen</span></div>
+        <div class="card-body">
+          <div class="title">${p.name}</div>
+          <div class="meta">
+            <span class="price">$${p.price}</span>
+            <button class="btn primary">Agregar</button>
+          </div>
+          <div style="font-size:12px;color:var(--sub)">${p.brand} • ${p.category} • ${"★".repeat(p.rating)}</div>
+        </div>
+      </article>`
+    }
+
+    function render(){
+      const grid=$("#grid");
+      const empty=$("#empty");
+      const filtered=sortItems(applyFilters(products.slice()))
+      grid.innerHTML=filtered.map(productCard).join("");
+      empty.hidden=filtered.length>0;
+    }
+
+    $$("#filters [data-key='category'] input[type=checkbox]").forEach(cb=>cb.addEventListener("change",e=>{
+      if(e.target.checked) state.selectedCategories.add(e.target.value); else state.selectedCategories.delete(e.target.value);
+      renderChips();
+      render();
+    }));
+
+    $("#applyPrice").addEventListener("click",()=>{
+      const min=Number($("#minPrice").value); const max=Number($("#maxPrice").value);
+      state.minPrice = isNaN(min) || $("#minPrice").value==="" ? null : min;
+      state.maxPrice = isNaN(max) || $("#maxPrice").value==="" ? null : max;
+      renderChips();
+      render();
+    });
+
+    $("#q").addEventListener("input",e=>{state.q=e.target.value.trim(); renderChips(); render();});
+
+    function renderBrands(){
+      const brands=[...new Set(products.map(p=>p.brand))].sort();
+      const cont=$("#brandList");
+      cont.innerHTML=brands.map(b=>`<div class=\"check\"><input type=\"checkbox\" value=\"${b}\" id=\"b-${b}\"><label for=\"b-${b}\">${b}</label></div>`).join("");
+      cont.querySelectorAll("input[type=checkbox]").forEach(cb=>cb.addEventListener("change",e=>{
+        if(e.target.checked) state.brand.add(e.target.value); else state.brand.delete(e.target.value);
+        renderChips();
+        render();
+      }));
+    }
+
+    $$("input[name=rating]").forEach(r=>r.addEventListener("change",e=>{state.rating=e.target.value; renderChips(); render();}));
+
+    $$(".acc-button").forEach(btn=>btn.addEventListener("click",e=>{
+      const item=e.currentTarget.closest(".acc-item");
+      item.classList.toggle("open");
+      const expanded=item.classList.contains("open");
+      e.currentTarget.setAttribute("aria-expanded", expanded);
+      e.currentTarget.querySelector("span:last-child").textContent = expanded?"▾":"▸";
+    }));
+
+    $("#sortSelect").addEventListener("change",e=>{state.sort=e.target.value; render();});
+
+    renderBrands();
+    renderChips();
+    render();
+  </script>
+</body>
+</html>
