@@ -6,7 +6,7 @@
   <link rel="stylesheet" href="css/landing.css">
   <title>Catálogo de productos</title>
   <!-- Fondo con blobs (#F2AE30, #F24F13) -->
-  <link rel="stylesheet" href="estilo.css">
+  <link rel="stylesheet" href="css/estilo_blobs.css">
   <style>
     :root{
       --rose:#BF5471; --blue:#0F31F2; --indigo:#3D58F2; --amber:#F2AE30; --orange:#F24F13;
@@ -85,15 +85,10 @@
 </header> 
 <body>
   <div class="layout">
-<<<<<<<< HEAD:frontend/catalogo_de_productos.html
     <div class="topbar">
       <a href="landing.html" class="back" aria-label="Volver">← Volver</a>
     </div>
-    <h1 class="page-title">Filtrar</h1>
-========
     <h1 class="page-title">Catálogo</h1>
->>>>>>>> Catalago-de-productos:catalogo_color.html
-
     <div class="toolbar">
       <div class="chips" id="activeChips" aria-live="polite"></div>
       <div class="sort">
@@ -196,7 +191,6 @@
 		</div>
 	</div>
 
-<<<<<<<< HEAD:frontend/catalogo_de_productos.html
 	<div>
 		<div style="color: white;">Ubicación: Javier Díaz #6969</div>
 		<div style="color: white;">Horarios de atención</div>
@@ -226,156 +220,152 @@
 	</nav>
 </footer>
 <script>
-    // --- Datos de ejemplo ---
-========
-  <script>
-    // Datos de ejemplo
->>>>>>>> Catalago-de-productos:catalogo_color.html
-    const products = Array.from({length:16}).map((_,i)=>({
-      id:i+1,
-      name:["Producto","Gadget","Item","Accesorio"][i%4]+" "+(i+1),
-      price: (i%7+1)*10 + (i%3)*4 + 1,
-      category: ["CAT 1","CAT 2","Accesorios"][i%3],
-      brand: ["Acme","Nova","Zetta","Orion"][i%4],
-      rating: [5,4,4,3,2,5,3,4,5,1,4,2,5,3,4,5][i],
-    }));
+  // Datos de ejemplo
+  const products = Array.from({length:16}).map((_,i)=>({
+    id:i+1,
+    name:["Producto","Gadget","Item","Accesorio"][i%4]+" "+(i+1),
+    price: (i%7+1)*10 + (i%3)*4 + 1,
+    category: ["CAT 1","CAT 2","Accesorios"][i%3],
+    brand: ["Acme","Nova","Zetta","Orion"][i%4],
+    rating: [5,4,4,3,2,5,3,4,5,1,4,2,5,3,4,5][i],
+  }));
 
-    // Estado
-    const state = {selectedCategories:new Set(),minPrice:null,maxPrice:null,q:"",brand:new Set(),rating:"",sort:"featured"};
+  // Estado
+  const state = {selectedCategories:new Set(),minPrice:null,maxPrice:null,q:"",brand:new Set(),rating:"",sort:"featured"};
 
-    // Utils
-    const $ = sel => document.querySelector(sel);
-    const $$ = sel => Array.from(document.querySelectorAll(sel));
+  // Utils
+  const $ = sel => document.querySelector(sel);
+  const $$ = sel => Array.from(document.querySelectorAll(sel));
 
-    // Chips de filtros activos
-    function renderChips(){
-      const wrap = document.getElementById('activeChips');
-      wrap.innerHTML = '';
-      const chips = [];
-      if(state.selectedCategories.size){
-        [...state.selectedCategories].forEach(v=>chips.push({key:'category', label:`Cat: ${v}`, value:v}));
-      }
-      if(state.brand.size){
-        [...state.brand].forEach(v=>chips.push({key:'brand', label:`Marca: ${v}`, value:v}));
-      }
-      if(state.minPrice!=null || state.maxPrice!=null){
-        chips.push({key:'price', label:`Precio: ${state.minPrice??'-'} – ${state.maxPrice??'-'}`, value:'price'});
-      }
-      if(state.q){ chips.push({key:'q', label:`Buscar: ${state.q}`, value:'q'}); }
-      if(state.rating){ chips.push({key:'rating', label:`${state.rating}★+`, value:'rating'}); }
-
-      chips.forEach(c=>{
-        const btn=document.createElement('button');
-        btn.className='chip';
-        btn.innerHTML=`${c.label} <span class="x">✕</span>`;
-        btn.addEventListener('click',()=>removeFilter(c));
-        wrap.appendChild(btn);
-      });
+  // Chips de filtros activos
+  function renderChips(){
+    const wrap = document.getElementById('activeChips');
+    wrap.innerHTML = '';
+    const chips = [];
+    if(state.selectedCategories.size){
+      [...state.selectedCategories].forEach(v=>chips.push({key:'category', label:`Cat: ${v}`, value:v}));
     }
-
-    function removeFilter(chip){
-      switch(chip.key){
-        case 'category': state.selectedCategories.delete(chip.value); $(`#filters [data-key='category'] input[value="${chip.value}"]`).checked=false; break;
-        case 'brand': state.brand.delete(chip.value); $(`#brandList input[value="${chip.value}"]`).checked=false; break;
-        case 'price': state.minPrice=null; state.maxPrice=null; $('#minPrice').value=''; $('#maxPrice').value=''; break;
-        case 'q': state.q=''; $('#q').value=''; break;
-        case 'rating': state.rating=''; $('#rall').checked=true; break;
-      }
-      renderChips();
-      render();
+    if(state.brand.size){
+      [...state.brand].forEach(v=>chips.push({key:'brand', label:`Marca: ${v}`, value:v}));
     }
-
-    // Filtrado + orden
-    function applyFilters(list){
-      return list.filter(p=>{
-        if(state.selectedCategories.size && !state.selectedCategories.has(p.category)) return false;
-        if(state.brand.size && !state.brand.has(p.brand)) return false;
-        if(state.minPrice!=null && p.price < state.minPrice) return false;
-        if(state.maxPrice!=null && p.price > state.maxPrice) return false;
-        if(state.q && !p.name.toLowerCase().includes(state.q.toLowerCase())) return false;
-        if(state.rating && p.rating < Number(state.rating)) return false;
-        return true;
-      });
+    if(state.minPrice!=null || state.maxPrice!=null){
+      chips.push({key:'price', label:`Precio: ${state.minPrice??'-'} – ${state.maxPrice??'-'}`, value:'price'});
     }
+    if(state.q){ chips.push({key:'q', label:`Buscar: ${state.q}`, value:'q'}); }
+    if(state.rating){ chips.push({key:'rating', label:`${state.rating}★+`, value:'rating'}); }
 
-    function sortItems(list){
-      const s=state.sort;
-      const byName=(a,b)=>a.name.localeCompare(b.name,'es',{sensitivity:'base'});
-      const byPrice=(a,b)=>a.price-b.price;
-      const byRating=(a,b)=>b.rating-a.rating;
-      if(s==='price-asc') return list.sort(byPrice);
-      if(s==='price-desc') return list.sort((a,b)=>byPrice(b,a));
-      if(s==='name-asc') return list.sort(byName);
-      if(s==='name-desc') return list.sort((a,b)=>byName(b,a));
-      return list.sort(byRating);
-    }
-
-    // Render de tarjeta
-    function productCard(p){
-      return `<article class="card" data-id="${p.id}">
-        <div class="thumb" role="img" aria-label="Imagen de ${p.name}"><span>Imagen</span></div>
-        <div class="card-body">
-          <div class="title" title="${p.name}">${p.name}</div>
-          <div class="meta">
-            <span class="price">$${p.price}</span>
-            <button class="btn primary">Agregar</button>
-          </div>
-          <div style="font-size:12px;color:var(--sub)">${p.brand} • ${p.category} • ${"★".repeat(p.rating)}</div>
-        </div>
-      </article>`
-    }
-
-    function render(){
-      const grid=$("#grid");
-      const empty=$("#empty");
-      const filtered=sortItems(applyFilters(products.slice()));
-      grid.innerHTML=filtered.map(productCard).join("");
-      empty.hidden=filtered.length>0;
-    }
-
-    // Eventos
-    $$("#filters [data-key='category'] input[type=checkbox]").forEach(cb=>cb.addEventListener("change",e=>{
-      if(e.target.checked) state.selectedCategories.add(e.target.value); else state.selectedCategories.delete(e.target.value);
-      renderChips();
-      render();
-    }));
-
-    $("#applyPrice").addEventListener("click",()=>{
-      const min=Number($("#minPrice").value); const max=Number($("#maxPrice").value);
-      state.minPrice = isNaN(min) || $("#minPrice").value==="" ? null : min;
-      state.maxPrice = isNaN(max) || $("#maxPrice").value==="" ? null : max;
-      renderChips();
-      render();
+    chips.forEach(c=>{
+      const btn=document.createElement('button');
+      btn.className='chip';
+      btn.innerHTML=`${c.label} <span class="x">✕</span>`;
+      btn.addEventListener('click',()=>removeFilter(c));
+      wrap.appendChild(btn);
     });
+  }
 
-    $("#q").addEventListener("input",e=>{state.q=e.target.value.trim(); renderChips(); render();});
-
-    function renderBrands(){
-      const brands=[...new Set(products.map(p=>p.brand))].sort();
-      const cont=$("#brandList");
-      cont.innerHTML=brands.map(b=>`<div class=\"check\"><input type=\"checkbox\" value=\"${b}\" id=\"b-${b}\"><label for=\"b-${b}\">${b}</label></div>`).join("");
-      cont.querySelectorAll("input[type=checkbox]").forEach(cb=>cb.addEventListener("change",e=>{
-        if(e.target.checked) state.brand.add(e.target.value); else state.brand.delete(e.target.value);
-        renderChips();
-        render();
-      }));
+  function removeFilter(chip){
+    switch(chip.key){
+      case 'category': state.selectedCategories.delete(chip.value); $(`#filters [data-key='category'] input[value="${chip.value}"]`).checked=false; break;
+      case 'brand': state.brand.delete(chip.value); $(`#brandList input[value="${chip.value}"]`).checked=false; break;
+      case 'price': state.minPrice=null; state.maxPrice=null; $('#minPrice').value=''; $('#maxPrice').value=''; break;
+      case 'q': state.q=''; $('#q').value=''; break;
+      case 'rating': state.rating=''; $('#rall').checked=true; break;
     }
-
-    $$("input[name=rating]").forEach(r=>r.addEventListener("change",e=>{state.rating=e.target.value; renderChips(); render();}));
-
-    $$(".acc-button").forEach(btn=>btn.addEventListener("click",e=>{
-      const item=e.currentTarget.closest(".acc-item");
-      item.classList.toggle("open");
-      const expanded=item.classList.contains("open");
-      e.currentTarget.setAttribute("aria-expanded", expanded);
-      e.currentTarget.querySelector("span:last-child").textContent = expanded?"▾":"▸";
-    }));
-
-    $("#sortSelect").addEventListener("change",e=>{state.sort=e.target.value; render();});
-
-    // Init
-    renderBrands();
     renderChips();
     render();
+  }
+
+    // Filtrado + orden
+  function applyFilters(list){
+    return list.filter(p=>{
+      if(state.selectedCategories.size && !state.selectedCategories.has(p.category)) return false;
+      if(state.brand.size && !state.brand.has(p.brand)) return false;
+      if(state.minPrice!=null && p.price < state.minPrice) return false;
+      if(state.maxPrice!=null && p.price > state.maxPrice) return false;
+      if(state.q && !p.name.toLowerCase().includes(state.q.toLowerCase())) return false;
+      if(state.rating && p.rating < Number(state.rating)) return false;
+      return true;
+    });
+  }
+
+  function sortItems(list){
+    const s=state.sort;
+    const byName=(a,b)=>a.name.localeCompare(b.name,'es',{sensitivity:'base'});
+    const byPrice=(a,b)=>a.price-b.price;
+    const byRating=(a,b)=>b.rating-a.rating;
+    if(s==='price-asc') return list.sort(byPrice);
+    if(s==='price-desc') return list.sort((a,b)=>byPrice(b,a));
+    if(s==='name-asc') return list.sort(byName);
+    if(s==='name-desc') return list.sort((a,b)=>byName(b,a));
+    return list.sort(byRating);
+  }
+
+  // Render de tarjeta
+  function productCard(p){
+    return `<article class="card" data-id="${p.id}">
+      <div class="thumb" role="img" aria-label="Imagen de ${p.name}"><span>Imagen</span></div>
+      <div class="card-body">
+        <div class="title" title="${p.name}">${p.name}</div>
+        <div class="meta">
+          <span class="price">$${p.price}</span>
+          <button class="btn primary">Agregar</button>
+        </div>
+        <div style="font-size:12px;color:var(--sub)">${p.brand} • ${p.category} • ${"★".repeat(p.rating)}</div>
+      </div>
+    </article>`
+  }
+
+  function render(){
+    const grid=$("#grid");
+    const empty=$("#empty");
+    const filtered=sortItems(applyFilters(products.slice()));
+    grid.innerHTML=filtered.map(productCard).join("");
+    empty.hidden=filtered.length>0;
+  }
+
+  // Eventos
+  $$("#filters [data-key='category'] input[type=checkbox]").forEach(cb=>cb.addEventListener("change",e=>{
+    if(e.target.checked) state.selectedCategories.add(e.target.value); else state.selectedCategories.delete(e.target.value);
+    renderChips();
+    render();
+  }));
+
+  $("#applyPrice").addEventListener("click",()=>{
+    const min=Number($("#minPrice").value); const max=Number($("#maxPrice").value);
+    state.minPrice = isNaN(min) || $("#minPrice").value==="" ? null : min;
+    state.maxPrice = isNaN(max) || $("#maxPrice").value==="" ? null : max;
+    renderChips();
+    render();
+  });
+
+  $("#q").addEventListener("input",e=>{state.q=e.target.value.trim(); renderChips(); render();});
+
+  function renderBrands(){
+    const brands=[...new Set(products.map(p=>p.brand))].sort();
+    const cont=$("#brandList");
+    cont.innerHTML=brands.map(b=>`<div class=\"check\"><input type=\"checkbox\" value=\"${b}\" id=\"b-${b}\"><label for=\"b-${b}\">${b}</label></div>`).join("");
+    cont.querySelectorAll("input[type=checkbox]").forEach(cb=>cb.addEventListener("change",e=>{
+      if(e.target.checked) state.brand.add(e.target.value); else state.brand.delete(e.target.value);
+      renderChips();
+      render();
+    }));
+  }
+
+  $$("input[name=rating]").forEach(r=>r.addEventListener("change",e=>{state.rating=e.target.value; renderChips(); render();}));
+
+  $$(".acc-button").forEach(btn=>btn.addEventListener("click",e=>{
+    const item=e.currentTarget.closest(".acc-item");
+    item.classList.toggle("open");
+    const expanded=item.classList.contains("open");
+    e.currentTarget.setAttribute("aria-expanded", expanded);
+    e.currentTarget.querySelector("span:last-child").textContent = expanded?"▾":"▸";
+  }));
+
+  $("#sortSelect").addEventListener("change",e=>{state.sort=e.target.value; render();});
+
+  // Init
+  renderBrands();
+  renderChips();
+  render();
 </script>
 </html>
