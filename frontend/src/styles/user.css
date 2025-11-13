@@ -1,0 +1,166 @@
+
+  /* ===== RESET ===== */
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  }
+
+  /* ===== HEADER ===== */
+  .header {
+    display: grid;
+    flex-wrap: wrap;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+    padding: 10px 20px;
+    background-color: #e9edf5;
+  }
+
+  .h-izquierda {
+    display: flex;
+    gap: 20px;
+  }
+
+  .h-derecha {
+    display: flex;
+    gap: 20px;
+    flex-direction: row-reverse;
+  }
+
+  .h-izquierda a,
+  .h-derecha a {
+    color: #24325f;
+    text-decoration: none;
+    font-weight: 600;
+    transition: color 0.2s;
+  }
+
+  .h-izquierda a:hover,
+  .h-derecha a:hover {
+    color: #F57242;
+  }
+
+  #barraBuscarProd {
+    padding: 6px 10px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+  }
+
+  /* ===== FOOTER ===== */
+  .footer {
+    display: grid;
+    grid-template-columns: 1fr 3fr 1fr 1fr 1fr;
+    align-items: center;
+    gap: 20px;
+    background-color: #24325f;
+    padding: 30px 20px;
+    color: #fff;
+  }
+
+  .flexx {
+    display: flex;
+    flex-direction: row;
+    gap: 5px;
+  }
+
+  .nav {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+
+  .info {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 5px;
+  }
+
+  .footer a {
+    color: #cfd6ff;
+    text-decoration: none;
+    font-size: 14px;
+  }
+
+  .footer a:hover {
+    color: #ff9f68;
+  }
+
+  /* ===== BODY ===== */
+  body {
+    margin: 0;
+    background: linear-gradient(120deg, #ff7a4f, #ff9f68);
+  }
+
+  /* ===== CONTENEDOR PRINCIPAL ===== */
+  .container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: calc(100vh - 160px);
+    padding: 40px 20px;
+  }
+
+  /* ===== CAJA PERFIL ===== */
+  .perfil-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 340px;
+    padding: 30px 25px;
+    background-color: #fff;
+    border-radius: 14px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+  }
+
+  /* ===== FOTO ===== */
+  .avatar {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    background: linear-gradient(135deg,#3451e6,#6b8cff);
+    display: grid;
+    place-items: center;
+    color: white;
+    font-size: 48px;
+    font-weight: 700;
+    margin-bottom: 20px;
+    box-shadow: 0 6px 18px rgba(34,54,201,0.18);
+  }
+
+  /* ===== CAMPOS ===== */
+  label {
+    align-self: flex-start;
+    color: #24325f;
+    font-weight: 600;
+    font-size: 14px;
+    margin-bottom: 5px;
+  }
+
+  .input-principal {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 18px;
+    border: 1px solid #ccd3eb;
+    border-radius: 8px;
+    font-size: 14px;
+    transition: border-color 0.2s;
+  }
+
+  .input-principal:focus {
+    border-color: #3451e6;
+    outline: none;
+  }
+
+  h2 {
+    color: #24325f;
+    margin-bottom: 20px;
+  }
+
+  /* ===== RESPONSIVE ===== */
+  @media (max-width: 600px) {
+    .perfil-box {
+      width: 90%;
+      padding: 25px;
+    }
+  }

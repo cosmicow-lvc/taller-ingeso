@@ -38,8 +38,8 @@ export default function Footer() {
       <nav className="nav">
         <p style={{ color: "white" }}>Otro</p>
         <a href="#" style={{ color: "white" }}>Loren ipsum</a>
-        <a href="#" style={{ color: "white" }}>Loren ipsum</a>
-        <Link to="/atencion_al_cliente" style={{ color: "white" }}>Loren ipsum</Link>
+        <Link to="/perfil" style={{ color: "white" }}>Loren ipsum</Link>
+        <Link to="/atencion" style={{ color: "white" }}>Loren ipsum</Link>
       </nav>
     </footer>
   );

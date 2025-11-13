@@ -7,7 +7,7 @@ export default function Header() {
       <nav className="h-izquierda">
         <span className="logo">Logo</span>
         <Link to="/catalogo">Catalogo</Link>
-        <Link to="/wip">Quienes somos</Link>
+        <Link to="/quienes-somos">Quienes somos</Link>
         <Link to="/wip">Contactanos</Link>
       </nav>
       <div className="h-derecha">
