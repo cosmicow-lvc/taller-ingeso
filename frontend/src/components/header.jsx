@@ -1,19 +1,40 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { useCart } from "../context/CartContext";
+import Cart from "./Cart";
+import cartSvg from "../media/shopping-cart-outline.svg";
 
 export default function Header() {
+  const { totalCount, toggle } = useCart();
+
   return (
-    <header className="navbar">
-      <nav className="h-izquierda">
-        <span className="logo">Logo</span>
-        <Link to="/catalogo">Catalogo</Link>
-        <Link to="/quienes-somos">Quienes somos</Link>
-        <Link to="/wip">Contactanos</Link>
-      </nav>
-      <div className="h-derecha">
-        <input type="text" id="barraBuscarProd" placeholder="Buscar Producto" />
-        <Link to="/login">Iniciar sesión</Link>
-      </div>
-    </header>
+    <>
+      <header className="navbar">
+        <nav className="h-izquierda">
+          <span className="logo">Logo</span>
+          <Link to="/catalogo">Catalogo</Link>
+          <Link to="/quienes-somos">Quienes somos</Link>
+          <Link to="/wip">Contactanos</Link>
+        </nav>
+        <div className="h-derecha">
+          <input type="text" id="barraBuscarProd" placeholder="Buscar Producto" />
+          <Link to="/login">Iniciar sesión</Link>
+
+          {/* Icono de carrito */}
+          <button aria-label="Abrir carrito" onClick={toggle} style={{marginLeft:12, padding:8, position:"relative"}} className="carro">
+            <img src={cartSvg} alt="Carrito" style={{width:20,height:20,display:"block"}} />
+            {totalCount > 0 && (
+              <span style={{
+                position:"absolute", top:-6, right:-6, background:"#f24f13", color:"#fff",
+                borderRadius:999, padding:"2px 6px", fontSize:12, fontWeight:800
+              }}>{totalCount}</span>
+            )}
+          </button>
+        </div>
+      </header>
+
+      {/* Drawer del carrito se monta aquí para que esté disponible en todas las páginas que usan Header */}
+      <Cart />
+    </>
   );
 }

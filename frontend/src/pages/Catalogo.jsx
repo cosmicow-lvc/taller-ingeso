@@ -2,7 +2,8 @@ import { useMemo, useState, useEffect } from "react";
 import "../styles/estilo.css";
 import ProductDetail from "../components/ProductDetail";
 import Header from "../components/Header";
-import Footer from "../components/footer";
+import Footer from "../components/Footer";
+import { useCart } from "../context/CartContext";
 
 // ==== Datos de ejemplo con variantes y reseñas ====
 const products = [
@@ -177,18 +178,9 @@ export default function Catalogo() {
     setMinPriceInput(""); setMaxPriceInput("");
   }
 
-  // ===== Detalle / carrito simple =====
+  // ===== Detalle =====
   const [detailProduct, setDetailProduct] = useState(null);
-  const [cart, setCart] = useState([]);
-  function addToCart(item){
-    setCart(prev => {
-      const key = `${item.productId}:${item.variantId}`;
-      const idx = prev.findIndex(x => `${x.productId}:${x.variantId}`===key);
-      if (idx>-1){ const next=[...prev]; next[idx]={...next[idx], qty: next[idx].qty + item.qty}; return next; }
-      return [...prev, item];
-    });
-    alert("Agregado al carrito");
-  }
+  const { addItem } = useCart();
 
   function toggleSet(setter, value){
     setter(prev => { const next = new Set(prev); if (next.has(value)) next.delete(value); else next.add(value); return next; });
@@ -348,8 +340,8 @@ export default function Catalogo() {
         {detailProduct && (
           <ProductDetail
             product={detailProduct}
-            onClose={()=>setDetailProduct(null)}
-            onAdd={(payload)=>{ addToCart(payload); }}
+            onClose={() => setDetailProduct(null)}
+            onAdd={(payload) => { addItem(payload); }}
           />
         )}
       </div>

@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import "../styles/landing.css";
 import "../styles/commons.css";
 import Footer from "../components/footer";
@@ -17,9 +18,9 @@ export default function Landing() {
                             INTRODUCCIÓN. Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
                             Duis finibus iaculis risus at lobortis. Nullam ut luctus massa. 
                         </p>
-                        <a href="catalogo_de_productos.html">
+                        <Link to="/catalogo">
                             <button className="btn">Catálogo</button>
-                        </a>
+                        </Link>
                     </div>
                 </section>
 
