@@ -38,14 +38,14 @@
   display: flex;
   justify-content: space-between;
   padding: 6px 0;
+  column-gap: 8px;
   border-top: 1px dashed #f0f0f0;
 }
 
 .order-card-body {
     display: grid;
     grid-template-columns: 49% 49%;
-    column-gap: 16px;
-    justify-items: start end;
+    justify-items: start;
 }
 
 .order-card-body .order-row:first-of-type { border-top: none; }
@@ -67,4 +67,55 @@
   justify-content: start;
   height: 100vh;
   position: relative;
+}
+
+.details-btn {
+  background: transparent;
+  border: 1px solid transparent;
+  padding: 4px 8px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 1.1rem;
+  color: #333;
+  line-height: 1;
+  margin-left: 8px;
+}
+
+.details-btn:hover {
+  background: rgba(0,0,0,0.04);
+}
+
+/* detalles desplegables */
+.order-details {
+  margin-top: 12px;
+  padding: 12px;
+  border-top: 1px dashed #e9e9e9;
+  background: #fafafa;
+  border-radius: 6px;
+}
+
+.order-details ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.product-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 8px 0;
+  border-bottom: 1px solid rgba(0,0,0,0.03);
+}
+
+.product-row:last-child { border-bottom: none; }
+
+.product-name { color: #222; }
+.product-meta { color: #666; font-size: 0.9rem; }
+
+.no-products { color: #666; font-size: 0.95rem; }
+
+/* ajuste móvil */
+@media (max-width: 600px) {
+  .order-card-header { gap: 8px; }
+  .details-btn { padding: 6px 10px; }
 }
