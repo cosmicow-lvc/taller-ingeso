@@ -1,21 +1,5 @@
 /* ===== PÁGINA QUIÉNES SOMOS - LIMPIO ===== */
 
-/* Deshabilitar overlay decorativo de support-ui.css en esta página */
-body::before {
-  display: none !important;
-}
-
-/* Ocultar footer en esta página */
-.quienes-somos-page ~ .footer {
-  display: none;
-}
-
-/* Aplicar gradiente suave a todo */
-body {
-  background: linear-gradient(to right, #ff8a5c 0%, #ffa978 25%, #ffb886 50%, #d4959e 75%, #c88ba8 100%) !important;
-  background-attachment: fixed !important;
-}
-
 .quienes-somos-page {
   display: flex;
   flex-direction: column;
@@ -23,15 +7,23 @@ body {
   width: 100%;
 }
 
+/* Header heredado de commons.css */
+
 /* Main content area */
 .quienes-somos-page > main {
   display: flex;
   flex-direction: column;
   align-items: center;
   width: 100%;
-  flex-grow: 1;
+  flex: 1;
   padding: 40px 20px;
   gap: 40px;
+  background: linear-gradient(120deg, #ff7a4f, #ff9f68);
+}
+
+/* Footer al final */
+.quienes-somos-page > .footer {
+  margin-top: auto;
 }
 
 /* Recuadro de Quiénes Somos */
@@ -78,20 +70,6 @@ body {
   justify-content: center;
   animation: slideDown 0.6s ease-out forwards;
   opacity: 0;
-}
-
-.tarjeta-trigger {
-  border: none;
-  background: transparent;
-  padding: 0;
-  width: 100%;
-  cursor: pointer;
-}
-
-.tarjeta-trigger:focus-visible {
-  outline: 2px solid #24325f;
-  outline-offset: 6px;
-  border-radius: 14px;
 }
 
 .tarjeta-contenedor:nth-child(1) { animation-delay: 0.1s; }

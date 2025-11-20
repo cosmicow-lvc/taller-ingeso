@@ -8,6 +8,7 @@ import QuienesSomos from "./pages/QuienesSomos.jsx";
 import UserPage from "./pages/UserPage.jsx";
 import AtencionAlCliente from "./pages/AtencionCliente.jsx";
 import Historial from "./pages/Historial.jsx";
+import Contacto from "./pages/Contacto.jsx";
 
 function App() {
     return (
@@ -21,6 +22,7 @@ function App() {
             <Route path="/perfil" element={<UserPage />} />
             <Route path="/atencion" element={<AtencionAlCliente />} />
             <Route path="/historial" element={<Historial />} />
+            <Route path="/contacto" element={<Contacto />} />
         </Routes>
     );
 }

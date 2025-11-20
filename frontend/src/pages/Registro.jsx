@@ -1,9 +1,11 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import "../styles/registro.css";
 import Footer from "../components/Footer";
 import Header from "../components/Header";
 
 export default function Registro(){
+  const navigate = useNavigate();
   const [form, setForm] = useState({
     nombre: "",
     apellido: "",
@@ -15,6 +17,8 @@ export default function Registro(){
   const [showPass, setShowPass] = useState(false);
   const [showPass2, setShowPass2] = useState(false);
   const [errors, setErrors] = useState({});
+  const [loading, setLoading] = useState(false);
+  const [successMessage, setSuccessMessage] = useState("");
 
   function onChange(e){
     const { name, value, type, checked } = e.target;
@@ -32,11 +36,41 @@ export default function Registro(){
     return Object.keys(e).length === 0;
   }
 
-  function onSubmit(ev){
+  async function onSubmit(ev){
     ev.preventDefault();
     if(!validate()) return;
-    // Aquí iría la llamada real a tu backend.
-    alert("Cuenta creada (demo).");
+    
+    setLoading(true);
+    setErrors({});
+    setSuccessMessage("");
+    
+    try {
+      const response = await fetch("http://localhost:3000/auth/registro", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          nombre: form.nombre,
+          apellido: form.apellido,
+          email: form.email,
+          password: form.pass
+        })
+      });
+      
+      const data = await response.json();
+      
+      if (response.ok) {
+        setSuccessMessage("¡Cuenta creada exitosamente! Redirigiendo al login...");
+        setTimeout(() => {
+          navigate("/login");
+        }, 2000);
+      } else {
+        setErrors({ server: data.error || "Error al crear la cuenta" });
+      }
+    } catch (error) {
+      setErrors({ server: "Error de conexión con el servidor" });
+    } finally {
+      setLoading(false);
+    }
   }
 
   return (
@@ -50,6 +84,18 @@ export default function Registro(){
         <section className="auth-card" role="dialog" aria-label="Registro">
           <div className="auth-logo">Logo</div>
           <h1>Crear cuenta</h1>
+          
+          {successMessage && (
+            <div style={{padding: "12px", background: "#d4edda", color: "#155724", borderRadius: "8px", marginBottom: "16px"}}>
+              {successMessage}
+            </div>
+          )}
+          
+          {errors.server && (
+            <div style={{padding: "12px", background: "#f8d7da", color: "#721c24", borderRadius: "8px", marginBottom: "16px"}}>
+              {errors.server}
+            </div>
+          )}
 
           <form onSubmit={onSubmit} noValidate>
             <label className="field">
@@ -111,8 +157,10 @@ export default function Registro(){
             </label>
             {errors.acepta && <em className="msg">{errors.acepta}</em>}
 
-            <button className="btn primary" type="submit">Registrarse</button>
-            <button className="btn" type="button">Ya tengo cuenta</button>
+            <button className="btn primary" type="submit" disabled={loading}>
+              {loading ? "Registrando..." : "Registrarse"}
+            </button>
+            <button className="btn" type="button" onClick={() => navigate("/login")}>Ya tengo cuenta</button>
           </form>
         </section>
       </main>

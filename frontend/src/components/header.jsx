@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { useCart } from "../context/CartContext";
 import Cart from "./Cart";
 import cartSvg from "../media/shopping-cart-outline.svg";
+import logo from "../media/logo-transparente.png";
 
 export default function Header() {
   const { totalCount, toggle } = useCart();
@@ -11,10 +12,12 @@ export default function Header() {
     <>
       <header className="navbar">
         <nav className="h-izquierda">
-          <span className="logo">Logo</span>
+          <Link to="/" className="logo-link">
+            <img src={logo} alt="Logo" className="logo-img" />
+          </Link>
           <Link to="/catalogo">Catalogo</Link>
           <Link to="/quienes-somos">Quienes somos</Link>
-          <Link to="/wip">Contactanos</Link>
+          <Link to="/contacto">Contáctanos</Link>
         </nav>
         <div className="h-derecha">
           <input type="text" id="barraBuscarProd" placeholder="Buscar Producto" />

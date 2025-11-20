@@ -56,8 +56,23 @@ select{ appearance:none; border:1px solid var(--border); background:#fff; paddin
 
 /* ======= cards ======= */
 .card{ background:var(--panel); border:1px solid var(--border); border-radius:22px; box-shadow:var(--shadow); overflow:hidden; display:flex; flex-direction:column }
-.thumb{ aspect-ratio:4/3; background: radial-gradient(1200px 220px at -10% 110%, rgba(242,174,48,.35), transparent 50%), linear-gradient(135deg, var(--indigo), var(--blue)); display:grid; place-items:center; color:white; letter-spacing:.05em }
-.thumb span{ font-size:12px; opacity:.9 }
+.thumb{
+  aspect-ratio:4/3;
+  border:0;
+  padding:0;
+  width:100%;
+  background:#f4f6fb;
+  display:block;
+  overflow:hidden;
+  cursor:pointer;
+}
+.thumb:focus-visible{ outline:3px solid var(--ring); outline-offset:3px }
+.thumb img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  display:block;
+}
 .card-body{ padding:12px 14px; display:grid; gap:10px }
 .title{ font-size:clamp(14px,1.8vw,16px); font-weight:800; line-height:1.25; min-height:38px }
 .price{ font-size:12px; background:linear-gradient(180deg,#fff7e6,#feefcc); display:inline-block; padding:6px 10px; border-radius:999px; border:1px solid #f9e1a6; color:#9a6b00 }
@@ -116,8 +131,13 @@ select{ appearance:none; border:1px solid var(--border); background:#fff; paddin
   background:
     radial-gradient(1200px 220px at -10% 110%, rgba(242,174,48,.35), transparent 50%),
     linear-gradient(135deg, var(--indigo), var(--blue));
-  border-radius:16px; color:#fff; display:grid; place-items:center; letter-spacing:.05em;
+  border-radius:16px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  overflow:hidden;
 }
+.modal-image img{ width:100%; height:100%; object-fit:contain; display:block }
 .modal-info{ display:grid; gap:14px }
 .modal-description{ color:var(--ink); opacity:.9; line-height:1.45; margin:0 }
 .variant-block{ display:grid; gap:8px }

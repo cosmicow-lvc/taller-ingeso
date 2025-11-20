@@ -40,8 +40,11 @@ export default function ProductDetail({ product, onClose, onAdd }){
 
         <div className="modal-body">
           <div className="modal-media">
-            <div className="modal-image" aria-label={`Imagen ${variant?.name || ""}`}>
-              Imagen
+            <div className="modal-image">
+              <img
+                src={variant?.image || product.image}
+                alt={`Imagen de ${product.name} ${variant?.name ? `- ${variant.name}` : ""}`}
+              />
             </div>
           </div>
 

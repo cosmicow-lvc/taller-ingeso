@@ -157,10 +157,168 @@
     margin-bottom: 20px;
   }
 
+  /* ===== INFO USUARIO ===== */
+  .info-usuario {
+    width: 100%;
+    margin-bottom: 20px;
+  }
+
+  .info-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 12px 0;
+    border-bottom: 1px solid #e0e0e0;
+  }
+
+  .info-item strong {
+    color: #24325f;
+    font-weight: 600;
+  }
+
+  .info-item span {
+    color: #555;
+  }
+
+  /* ===== BOTONES ===== */
+  .botones-perfil {
+    display: flex;
+    gap: 12px;
+    width: 100%;
+    margin-top: 20px;
+  }
+
+  .btn-editar,
+  .btn-guardar {
+    flex: 1;
+    padding: 12px 20px;
+    background: linear-gradient(135deg, #24325f 0%, #3d5a9e 100%);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 14px;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+
+  .btn-editar:hover,
+  .btn-guardar:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(36, 50, 95, 0.3);
+  }
+
+  .btn-cerrar-sesion,
+  .btn-cancelar {
+    flex: 1;
+    padding: 12px 20px;
+    background: #f44336;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 14px;
+    transition: background 0.2s;
+  }
+
+  .btn-cerrar-sesion:hover,
+  .btn-cancelar:hover:not(:disabled) {
+    background: #d32f2f;
+  }
+
+  .btn-cancelar {
+    background: #757575;
+  }
+
+  .btn-cancelar:hover:not(:disabled) {
+    background: #616161;
+  }
+
+  .btn-guardar:disabled,
+  .btn-cancelar:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+
+  /* ===== FORMULARIO DE EDICIÓN ===== */
+  .form-editar {
+    width: 100%;
+  }
+
+  .form-group-edit {
+    width: 100%;
+    margin-bottom: 16px;
+    text-align: left;
+  }
+
+  .form-group-edit label {
+    display: block;
+    margin-bottom: 6px;
+    color: #24325f;
+    font-weight: 600;
+    font-size: 14px;
+  }
+
+  .separador-password {
+    width: 100%;
+    padding: 16px 0 8px 0;
+    border-top: 2px solid #e0e0e0;
+    margin: 12px 0;
+  }
+
+  .separador-password h3 {
+    color: #24325f;
+    font-size: 16px;
+    font-weight: 600;
+  }
+
+  .error-text {
+    display: block;
+    color: #f44336;
+    font-size: 12px;
+    margin-top: 4px;
+  }
+
+  /* ===== MENSAJES ===== */
+  .mensaje-exito {
+    width: 100%;
+    padding: 12px;
+    background: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+    border-radius: 8px;
+    margin-bottom: 16px;
+    font-weight: 500;
+    text-align: center;
+  }
+
+  .mensaje-error {
+    width: 100%;
+    padding: 12px;
+    background: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+    border-radius: 8px;
+    margin-bottom: 16px;
+    font-weight: 500;
+    text-align: center;
+  }
+
   /* ===== RESPONSIVE ===== */
   @media (max-width: 600px) {
     .perfil-box {
       width: 90%;
       padding: 25px;
+    }
+
+    .botones-perfil {
+      flex-direction: column;
+    }
+
+    .btn-editar,
+    .btn-guardar,
+    .btn-cerrar-sesion,
+    .btn-cancelar {
+      width: 100%;
     }
   }

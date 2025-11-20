@@ -10,18 +10,34 @@ export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
 
-  const validEmail = "usuario@prueba.com";
-  const validPassword = "123456";
-
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
-    if (email === validEmail && password === validPassword) {
-      // éxito -> navegar al landing (ajusta la ruta si usas otra)
-      navigate("/landing");
-    } else {
-      setError("Credenciales inválidas");
+    setLoading(true);
+    
+    try {
+      const response = await fetch("http://localhost:3000/auth/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password })
+      });
+      
+      const data = await response.json();
+      
+      if (response.ok) {
+        // Guardar información del usuario en localStorage
+        localStorage.setItem("usuario", JSON.stringify(data.usuario));
+        // Navegar al perfil o landing
+        navigate("/perfil");
+      } else {
+        setError(data.error || "Error al iniciar sesión");
+      }
+    } catch (error) {
+      setError("Error de conexión con el servidor");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -30,7 +46,7 @@ export default function Login() {
       <Header />
 
       <main className="container">
-        <Link to="/landing" className="volver">← Volver</Link>
+        <Link to="/" className="volver">← Volver</Link>
 
         <div className="login-box">
           <div className="logo">Logo</div>
@@ -64,7 +80,9 @@ export default function Login() {
             <Link to="#" className="forgot">¿Olvidó la contraseña?</Link>
 
             <div style={{ display: "flex", gap: 8, marginTop: 12 }}>
-              <button type="submit" className="btn continuar">Continuar</button>
+              <button type="submit" className="btn continuar" disabled={loading}>
+                {loading ? "Iniciando..." : "Continuar"}
+              </button>
               <Link to="/registro"><button type="button" className="btn registrarse">Registrarse</button></Link>
             </div>
           </form>

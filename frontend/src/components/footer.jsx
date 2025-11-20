@@ -23,9 +23,9 @@ export default function Footer() {
 
       <nav className="nav">
         <p style={{ color: "white" }}>Ayuda</p>
-        <a href="#" style={{ color: "white" }}>Preguntas frecuentes</a>
+        <Link to="/contacto" style={{ color: "white" }}>Preguntas frecuentes</Link>
         <a href="#" style={{ color: "white" }}>Políticas de devolución</a>
-        <a href="#" style={{ color: "white" }}>Contacto</a>
+        <Link to="/contacto" style={{ color: "white" }}>Contacto</Link>
       </nav>
 
       <nav className="nav">

@@ -4,6 +4,7 @@ import "../styles/landing.css";
 import "../styles/commons.css";
 import Footer from "../components/Footer";
 import Header from "../components/Header";
+import logo from "../media/logo-transparente.png";
 
 export default function Landing() {
     return (
@@ -13,6 +14,7 @@ export default function Landing() {
             <main>
                 <section className="hero">
                     <div className="hero-text">
+                        <img src={logo} alt="Logo" className="hero-logo" />
                         <h1>Bienvenido a nuestra tienda de ...</h1>
                         <p>
                             INTRODUCCIÓN. Lorem ipsum dolor sit amet, consectetur adipiscing elit. 

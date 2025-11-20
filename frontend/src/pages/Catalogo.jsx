@@ -4,6 +4,10 @@ import ProductDetail from "../components/ProductDetail";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import { useCart } from "../context/CartContext";
+import auricularesNovaImg from "../media/product-images/auriculares-novax.png";
+import tecladoOrionImg from "../media/product-images/teclado-orion-k7.png";
+import mouseAcmeImg from "../media/product-images/mouse-acme.pro.png";
+import monitorZettaImg from "../media/product-images/monitor-zetta.png";
 
 // ==== Datos de ejemplo con variantes y reseñas ====
 const products = [
@@ -16,10 +20,11 @@ const products = [
     category: "Accesorios",
     rating: 4.6,
     price: 49,
+    image: auricularesNovaImg,
     variants: [
-      { id: "negro", name: "Negro", price: 49, stock: 12, image: "" },
-      { id: "blanco", name: "Blanco", price: 52, stock: 8, image: "" },
-      { id: "azul", name: "Azul", price: 55, stock: 5, image: "" },
+      { id: "negro", name: "Negro", price: 49, stock: 12, image: auricularesNovaImg },
+      { id: "blanco", name: "Blanco", price: 52, stock: 8, image: auricularesNovaImg },
+      { id: "azul", name: "Azul", price: 55, stock: 5, image: auricularesNovaImg },
     ],
     reviews: [
       { id: "r1", user: "Ana", rating: 5, comment: "Se escuchan increíble y la batería dura mucho.", date: "2025-06-01" },
@@ -35,10 +40,11 @@ const products = [
     category: "CAT 1",
     rating: 4.3,
     price: 79,
+    image: tecladoOrionImg,
     variants: [
-      { id: "red", name: "Switch Rojo", price: 79, stock: 6, image: "" },
-      { id: "blue", name: "Switch Azul", price: 79, stock: 9, image: "" },
-      { id: "brown", name: "Switch Marrón", price: 85, stock: 3, image: "" },
+      { id: "red", name: "Switch Rojo", price: 79, stock: 6, image: tecladoOrionImg },
+      { id: "blue", name: "Switch Azul", price: 79, stock: 9, image: tecladoOrionImg },
+      { id: "brown", name: "Switch Marrón", price: 85, stock: 3, image: tecladoOrionImg },
     ],
     reviews: [
       { id: "r3", user: "Majo", rating: 5, comment: "El tamaño es perfecto para el escritorio.", date: "2025-05-02" },
@@ -54,9 +60,10 @@ const products = [
     category: "CAT 2",
     rating: 4.8,
     price: 39,
+    image: mouseAcmeImg,
     variants: [
-      { id: "wired", name: "Cableado", price: 39, stock: 20, image: "" },
-      { id: "wireless", name: "Inalámbrico", price: 59, stock: 7, image: "" },
+      { id: "wired", name: "Cableado", price: 39, stock: 20, image: mouseAcmeImg },
+      { id: "wireless", name: "Inalámbrico", price: 59, stock: 7, image: mouseAcmeImg },
     ],
     reviews: [
       { id: "r5", user: "Sofía", rating: 5, comment: "Preciso y muy cómodo, ideal para jugar.", date: "2025-04-14" },
@@ -71,9 +78,10 @@ const products = [
     category: "CAT 1",
     rating: 4.5,
     price: 269,
+    image: monitorZettaImg,
     variants: [
-      { id: "165", name: "165 Hz", price: 269, stock: 4, image: "" },
-      { id: "240", name: "240 Hz", price: 339, stock: 2, image: "" },
+      { id: "165", name: "165 Hz", price: 269, stock: 4, image: monitorZettaImg },
+      { id: "240", name: "240 Hz", price: 339, stock: 2, image: monitorZettaImg },
     ],
     reviews: [
       { id: "r6", user: "Pablo", rating: 5, comment: "Colores increíbles y fluidez total.", date: "2025-03-03" },
@@ -318,9 +326,14 @@ export default function Catalogo() {
             <div id="grid" className="grid" aria-live="polite">
               {filtered.map((p) => (
                 <article className="card" key={p.id}>
-                  <div className="thumb" role="img" aria-label={`Imagen de ${p.name}`} onClick={()=>setDetailProduct(p)} style={{cursor:"pointer"}}>
-                    <span>Imagen</span>
-                  </div>
+                  <button
+                    type="button"
+                    className="thumb"
+                    onClick={() => setDetailProduct(p)}
+                    aria-label={`Ver detalles de ${p.name}`}
+                  >
+                    <img src={p.image} alt={`Imagen de ${p.name}`} loading="lazy" />
+                  </button>
                   <div className="card-body">
                     <div className="title" title={p.name}>{p.name}</div>
                     <div className="meta">
