@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import "../styles/landing.css";
 import "../styles/commons.css";
-import Footer from "../components/footer";
+import Footer from "../components/Footer";
 import Header from "../components/Header";
 
 export default function Landing() {

@@ -7,6 +7,7 @@ import Login from "./pages/Login.jsx";
 import QuienesSomos from "./pages/QuienesSomos.jsx";
 import UserPage from "./pages/UserPage.jsx";
 import AtencionAlCliente from "./pages/AtencionCliente.jsx";
+import Historial from "./pages/Historial.jsx";
 
 function App() {
     return (
@@ -19,6 +20,7 @@ function App() {
             <Route path="/quienes-somos" element={<QuienesSomos />} />
             <Route path="/perfil" element={<UserPage />} />
             <Route path="/atencion" element={<AtencionAlCliente />} />
+            <Route path="/historial" element={<Historial />} />
         </Routes>
     );
 }

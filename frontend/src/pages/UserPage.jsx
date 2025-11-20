@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import "../styles/user.css";
 import Header from "../components/Header";
-import Footer from "../components/footer";
+import Footer from "../components/Footer";
 
 export default function UserPage() {
   // datos de ejemplo — reemplaza por props / fetch cuando los tengas

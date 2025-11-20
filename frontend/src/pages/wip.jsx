@@ -1,7 +1,7 @@
 import React from "react";
 import "../styles/login.css";
 import "../styles/commons.css";
-import Footer from "../components/footer"
+import Footer from "../components/Footer"
 import Header from "../components/Header";
 import wip from "../media/wip.png"
 

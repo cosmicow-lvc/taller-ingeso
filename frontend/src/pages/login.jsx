@@ -3,7 +3,7 @@ import { useNavigate, Link } from "react-router-dom";
 import "../styles/login.css";
 import "../styles/commons.css";
 import Header from "../components/Header";
-import Footer from "../components/footer";
+import Footer from "../components/Footer";
 
 export default function Login() {
   const navigate = useNavigate();

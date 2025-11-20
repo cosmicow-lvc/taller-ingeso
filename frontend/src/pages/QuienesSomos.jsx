@@ -1,7 +1,7 @@
 import React from "react";
 import "../styles/QuienesSomos.css";
 import Header from "../components/Header";
-import Footer from "../components/footer";
+import Footer from "../components/Footer";
 //import quienesImg from "../media/quienes-somos.jpg";
 
 export default function QuienesSomos() {

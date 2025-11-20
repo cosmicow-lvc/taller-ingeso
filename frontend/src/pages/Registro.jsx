@@ -1,6 +1,6 @@
 import { useState } from "react";
 import "../styles/registro.css";
-import Footer from "../components/footer";
+import Footer from "../components/Footer";
 import Header from "../components/Header";
 
 export default function Registro(){
