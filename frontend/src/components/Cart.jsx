@@ -49,7 +49,7 @@ export default function Cart() {
         </div>
         <div style={{display:"flex",gap:8}}>
           <button className="btn" onClick={() => { clearCart(); closeCart(); }}>Vaciar</button>
-          <button className="btn" style={{marginLeft:"auto"}} onClick={() => alert("Checkout (simulado)")}>Pagar</button>
+          <button className="btn" style={{marginLeft:"auto"}} onClick={() => { closeCart(); navigate("/checkout"); }}>Pagar</button>
         </div>
       </div>
     </div>
