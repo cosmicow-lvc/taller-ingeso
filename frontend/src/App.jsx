@@ -9,6 +9,7 @@ import UserPage from "./pages/UserPage.jsx";
 import AtencionAlCliente from "./pages/AtencionCliente.jsx";
 import Historial from "./pages/Historial.jsx";
 import Contacto from "./pages/Contacto.jsx";
+import AdminPanel from "./pages/AdminPanel.jsx";
 
 function App() {
     return (
@@ -23,6 +24,7 @@ function App() {
             <Route path="/atencion" element={<AtencionAlCliente />} />
             <Route path="/historial" element={<Historial />} />
             <Route path="/contacto" element={<Contacto />} />
+            <Route path="/admin" element={<AdminPanel />} />
         </Routes>
     );
 }

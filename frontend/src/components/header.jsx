@@ -18,6 +18,7 @@ export default function Header() {
           <Link to="/catalogo">Catalogo</Link>
           <Link to="/quienes-somos">Quienes somos</Link>
           <Link to="/contacto">Contáctanos</Link>
+          <Link to="/admin">Admin</Link>
         </nav>
         <div className="h-derecha">
           <input type="text" id="barraBuscarProd" placeholder="Buscar Producto" />
