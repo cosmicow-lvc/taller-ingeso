@@ -1,7 +1,9 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import { useCart } from "../context/CartContext";
 
 export default function Cart() {
+  const navigate = useNavigate();
   const { items, totalCount, totalPrice, open, toggle, updateQty, removeItem, clearCart, closeCart } = useCart();
 
   return (
