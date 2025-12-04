@@ -9,6 +9,7 @@ import UserPage from "./pages/UserPage.jsx";
 import AtencionAlCliente from "./pages/AtencionCliente.jsx";
 import Historial from "./pages/Historial.jsx";
 import Contacto from "./pages/Contacto.jsx";
+import Checkout from "./pages/Checkout.jsx";
 
 function App() {
     return (
