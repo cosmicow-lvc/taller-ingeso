@@ -24,6 +24,7 @@ function App() {
             <Route path="/atencion" element={<AtencionAlCliente />} />
             <Route path="/historial" element={<Historial />} />
             <Route path="/contacto" element={<Contacto />} />
+            <Route path="/checkout" element={<Checkout />} />
         </Routes>
     );
 }
