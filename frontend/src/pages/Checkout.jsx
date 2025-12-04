@@ -319,6 +319,13 @@ export default function Checkout() {
             <div className="items-list">
               {items.map(item => (
                 <div key={`${item.productId}:${item.variantId ?? "d"}`} className="summary-item">
+                  <div className="item-thumb">
+                    {item.meta?.image ? (
+                      <img src={item.meta.image} alt={item.name} onError={(e)=>{e.target.style.display='none';}} />
+                    ) : (
+                      <span>Img</span>
+                    )}
+                  </div>
                   <div className="item-info">
                     <div className="item-name">{item.name}</div>
                     {item.meta?.subtitle && (

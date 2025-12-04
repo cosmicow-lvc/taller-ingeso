@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useCart } from "../context/CartContext";
 import Cart from "./Cart";
@@ -7,6 +7,27 @@ import logo from "../media/logo-transparente.png";
 
 export default function Header() {
   const { totalCount, toggle } = useCart();
+  const [usuario, setUsuario] = useState(null);
+
+  useEffect(() => {
+    try {
+      const raw = localStorage.getItem("usuario");
+      if (raw) setUsuario(JSON.parse(raw));
+      else setUsuario(null);
+    } catch {}
+
+    const onStorage = (e) => {
+      if (e.key === "usuario") {
+        try {
+          const raw = e.newValue;
+          if (raw) setUsuario(JSON.parse(raw));
+          else setUsuario(null);
+        } catch {}
+      }
+    };
+    window.addEventListener("storage", onStorage);
+    return () => window.removeEventListener("storage", onStorage);
+  }, []);
 
   return (
     <>
@@ -21,7 +42,11 @@ export default function Header() {
         </nav>
         <div className="h-derecha">
           <input type="text" id="barraBuscarProd" placeholder="Buscar Producto" />
-          <Link to="/login">Iniciar sesión</Link>
+          {usuario ? (
+            <Link to="/perfil">{usuario?.nombre || "Perfil"}</Link>
+          ) : (
+            <Link to="/login">Iniciar sesión</Link>
+          )}
 
           {/* Icono de carrito */}
           <button aria-label="Abrir carrito" onClick={toggle} style={{marginLeft:12, padding:8, position:"relative"}} className="carro">

@@ -1,4 +1,3 @@
-/* ===== RESET ===== */
 * {
   box-sizing: border-box;
   margin: 0;
@@ -6,13 +5,11 @@
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
-/* ===== BODY ===== */
 body {
   margin: 0;
   background: linear-gradient(120deg, #1e1b4b, #4c1d95);
 }
 
-/* ===== CONTENEDOR  ===== */
 .container {
   display: flex;
   flex-direction: column;
@@ -22,7 +19,6 @@ body {
   position: relative;
 }
 
-/* ===== VOLVER ===== */
 .volver {
   position: absolute;
   top: 20px;
@@ -38,7 +34,6 @@ body {
   color: #F57242;
 }
 
-/* ===== CAJA DE LOGIN ===== */
 .login-box {
   display: flex;
   flex-direction: column;
@@ -51,7 +46,6 @@ body {
   border: 1px solid rgba(148, 163, 184, 0.3);
 }
 
-/* ===== TITULO ===== */
 h2 {
   margin: 10px 0 20px;
   font-size: 26px;
@@ -59,7 +53,6 @@ h2 {
   color: #f1f5f9;
 }
 
-/* ===== INPUTS ===== */
 .input-principal {
   width: 100%;
   padding: 10px;
@@ -81,7 +74,6 @@ h2 {
   outline: none;
 }
 
-/* ===== ENLACE OLVIDÉ CONTRASEÑA ===== */
 .forgot {
   align-self: flex-start;
   font-size: 12px;
@@ -95,7 +87,6 @@ h2 {
   color: #c7d2fe;
 }
 
-/* ===== BOTONES ===== */
 .btn {
   width: 100%;
   padding: 10px;
@@ -108,7 +99,6 @@ h2 {
   font-weight: 600;
 }
 
-/* Botón principal (Continuar / Iniciar sesión) */
 .continuar {
   background-color: #3451e6;
   color: white;
@@ -119,7 +109,6 @@ h2 {
   background-color: #2d43cc;
 }
 
-/* Botón secundario (Registrarse) */
 .registrarse {
   background-color: rgba(30, 41, 59, 0.6);
   color: #f1f5f9;

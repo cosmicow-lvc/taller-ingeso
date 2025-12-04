@@ -14,12 +14,44 @@ export default function AquaBackground() {
     let animationFrameId;
     let particles = [];
     let glassOrbs = [];
+    let colorCircles = [];
+    let dustParticles = [];
+
+    const initializeParticles = () => {
+      particles = [];
+      glassOrbs = [];
+      colorCircles = [];
+      dustParticles = [];
+
+      const circleCount = Math.floor((canvas.width * canvas.height) / 80000) + 8;
+      for (let i = 0; i < circleCount; i++) {
+        colorCircles.push(new ColorCircle());
+      }
+
+      const particleCount = Math.floor((canvas.width * canvas.height) / 15000);
+      for (let i = 0; i < particleCount; i++) {
+        particles.push(new Particle());
+      }
+
+      const dustCount = Math.floor((canvas.width * canvas.height) / 8000);
+      for (let i = 0; i < dustCount; i++) {
+        dustParticles.push(new DustParticle());
+      }
+
+      const orbCount = 12;
+      for (let i = 0; i < orbCount; i++) {
+        glassOrbs.push(new GlassOrb());
+      }
+    };
 
     const resizeCanvas = () => {
       canvas.width = window.innerWidth;
       canvas.height = window.innerHeight;
+      initializeParticles();
     };
-    resizeCanvas();
+
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
     window.addEventListener('resize', resizeCanvas);
 
     class Particle {
@@ -208,7 +240,7 @@ export default function AquaBackground() {
         this.baseY = this.y;
         this.size = Math.random() * 60 + 40;
         this.opacity = Math.random() * 0.15 + 0.05;
-        this.hue = Math.random() * 30 + 260; // Purple range
+        this.hue = Math.random() * 30 + 260;
         this.drift = Math.random() * 0.3 + 0.1;
         this.driftAngle = Math.random() * Math.PI * 2;
       }
@@ -255,27 +287,7 @@ export default function AquaBackground() {
       }
     }
 
-    let colorCircles = [];
-    const circleCount = Math.floor((canvas.width * canvas.height) / 80000) + 8;
-    for (let i = 0; i < circleCount; i++) {
-      colorCircles.push(new ColorCircle());
-    }
-
-    const particleCount = Math.floor((canvas.width * canvas.height) / 15000);
-    for (let i = 0; i < particleCount; i++) {
-      particles.push(new Particle());
-    }
-
-    let dustParticles = [];
-    const dustCount = Math.floor((canvas.width * canvas.height) / 8000);
-    for (let i = 0; i < dustCount; i++) {
-      dustParticles.push(new DustParticle());
-    }
-
-    const orbCount = 12;
-    for (let i = 0; i < orbCount; i++) {
-      glassOrbs.push(new GlassOrb());
-    }
+    initializeParticles();
 
     const handleMouseMove = (e) => {
       mouseRef.current = {

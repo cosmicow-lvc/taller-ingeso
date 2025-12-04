@@ -25,11 +25,16 @@ export default function ProductDetail({ product, onClose, onAdd }){
 
   function add(){
     if (!variant) return;
+    const API_URL = import.meta.env.VITE_API_URL ?? "http://localhost:3000";
+    const imageUrl = (variant?.image || product.image || "");
+    const resolvedImage = imageUrl?.startsWith("http") ? imageUrl : (imageUrl ? `${API_URL}${imageUrl}` : "");
     onAdd?.({
       productId: product.id,
       variantId: variant.id,
       qty: qty,
       price: variant.price,
+      name: product.name,
+      meta: { subtitle: product.brand, image: resolvedImage }
     });
     onClose?.();
   }

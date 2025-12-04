@@ -29,7 +29,13 @@ export default function Cart() {
         {items.length === 0 && <div style={{padding:24,color:"#cbd5e1"}}>Tu carrito está vacío.</div>}
         {items.map(it => (
           <div key={`${it.productId}:${it.variantId ?? "d"}`} style={{display:"flex",gap:12, padding:"10px 0", borderBottom:"1px solid rgba(148, 163, 184, 0.2)"}}>
-            <div style={{width:64,height:64,background:"rgba(100, 100, 150, 0.2)",borderRadius:8,display:"grid",placeItems:"center",color: "#cbd5e1"}}>Img</div>
+            <div style={{width:64,height:64,background:"rgba(100, 100, 150, 0.2)",borderRadius:8,display:"grid",placeItems:"center",overflow:"hidden"}}>
+              {it.meta?.image ? (
+                <img src={it.meta.image} alt={it.name} style={{width:"100%",height:"100%",objectFit:"contain",display:"block"}} onError={(e)=>{e.target.style.display='none';}} />
+              ) : (
+                <span style={{color: "#cbd5e1"}}>Img</span>
+              )}
+            </div>
             <div style={{flex:1}}>
               <div style={{fontWeight:700, color: "#ffffff", textShadow: "0 1px 2px rgba(0, 0, 0, 0.3)"}}>{it.name}</div>
               <div style={{fontSize:13,color:"#cbd5e1"}}>{it.meta?.subtitle ?? ""}</div>

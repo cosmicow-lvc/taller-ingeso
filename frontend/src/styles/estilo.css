@@ -1,4 +1,4 @@
-/* ======= base + variables + fondo ======= */
+
 :root{
   --bg1:#1e1b4b; --bg2:#4c1d95;
   --rose:#BF5471; --blue:#0F31F2; --indigo:#3D58F2; --amber:#F2AE30; --orange:#F24F13;
@@ -19,7 +19,7 @@ body{
 }
 h1,.page-title{ color:#f1f5f9 }
 
-/* ======= layout ======= */
+
 .layout{ max-width:min(1600px,98vw); margin:24px auto; padding:0 clamp(12px,2vw,24px); min-height: min(1600px,98vw); }
 .page-title{ font-size:clamp(22px,3.2vw,36px); font-weight:800; margin:8px 0 14px }
 .toolbar{ display:flex; gap:12px; align-items:center; flex-wrap:wrap; justify-content:space-between; margin-bottom:14px }
@@ -29,10 +29,10 @@ h1,.page-title{ color:#f1f5f9 }
 .sort{ margin-left:auto; display:flex; align-items:center; gap:8px }
 select{ appearance:none; border:1px solid var(--border); background:rgba(30, 41, 59, 0.6); padding:10px 12px; border-radius:12px; font-size:14px; box-shadow:0 2px 0 rgba(0,0,0,.02); color:#f1f5f9 }
 
-/* ======= content grid ======= */
+
 .content{ display:grid; grid-template-columns:260px 1fr; gap:clamp(24px,4vw,56px) } /* más espacio entre filtros y grid */
 
-/* ======= sidebar desktop ======= */
+
 .sidebar{
   position:sticky; top:16px; left:auto;
   height:fit-content; width:260px; min-width:240px;
@@ -50,12 +50,12 @@ select{ appearance:none; border:1px solid var(--border); background:rgba(30, 41,
 .search-in-filter:focus{ outline:2px solid var(--ring); outline-offset:2px }
 .search-in-filter::placeholder{ color:#94a3b8 }
 
-/* ======= grid ======= */
+
 .grid{ display:grid; grid-template-columns:repeat(auto-fill, minmax(260px,1fr)); gap:clamp(14px,2vw,22px) }
 @media (max-width:900px){ .content{ grid-template-columns:1fr } .grid{ grid-template-columns:repeat(2,minmax(0,1fr)) } }
 @media (max-width:520px){ .grid{ grid-template-columns:1fr } }
 
-/* ======= cards ======= */
+
 .card{ background:var(--panel); border:1px solid var(--border); border-radius:22px; box-shadow:var(--shadow); overflow:hidden; display:flex; flex-direction:column }
 .thumb{
   aspect-ratio:4/3;
@@ -86,10 +86,9 @@ select{ appearance:none; border:1px solid var(--border); background:rgba(30, 41,
 .btn.primary:hover{ filter:saturate(1.05); box-shadow:0 2px 0 #0e2ae1, 0 18px 28px rgba(15,49,242,.3) }
 .empty{ padding:32px; text-align:center; color:var(--sub) }
 
-/* ======= fixes ======= */
+
 .acc-button{ color:#f1f5f9 !important }
 
-/* ======= drawer móvil ======= */
 .filter-toggle,.close-sidebar{ display:none }
 .backdrop{ display:none }
 
@@ -108,8 +107,6 @@ select{ appearance:none; border:1px solid var(--border); background:rgba(30, 41,
 
 @media (prefers-reduced-motion:reduce){ .sidebar,.backdrop,.acc-content{ transition:none !important } }
 
-
-/* ============ MODAL / PRODUCT DETAIL ============ */
 .modal{ position:fixed; inset:0; z-index:200; display:grid; place-items:center }
 .modal-backdrop{ position:absolute; inset:0; background:rgba(0,0,0,.35); backdrop-filter: blur(2px) }
 .modal-dialog{
@@ -160,7 +157,6 @@ select{ appearance:none; border:1px solid var(--border); background:rgba(30, 41,
 .r-head{ display:flex; gap:8px; align-items:center; justify-content:space-between }
 .r-date{ font-size:12px; opacity:.6 }
 
-/* Stars */
 .stars{ letter-spacing:2px }
 .stars-sm{ font-size:12px }
 .stars-md{ font-size:16px }

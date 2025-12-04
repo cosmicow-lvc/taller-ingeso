@@ -1,4 +1,4 @@
-/* Checkout Container */
+
 .checkout-container {
   max-width: 1200px;
   margin: 0 auto;
@@ -14,7 +14,6 @@
   text-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
 }
 
-/* Layout principal - dos columnas */
 .checkout-content {
   display: grid;
   grid-template-columns: 1fr 380px;
@@ -22,7 +21,7 @@
   align-items: start;
 }
 
-/* Formulario */
+
 .checkout-form {
   background: linear-gradient(135deg, rgba(15, 23, 42, 0.6) 0%, rgba(30, 41, 59, 0.5) 100%);
   backdrop-filter: blur(25px) saturate(170%);
@@ -143,7 +142,7 @@
   border-color: #bbb;
 }
 
-/* Resumen de orden */
+
 .checkout-summary {
   background: linear-gradient(135deg, rgba(15, 23, 42, 0.6) 0%, rgba(30, 41, 59, 0.5) 100%);
   backdrop-filter: blur(25px) saturate(170%);
@@ -169,12 +168,28 @@
 }
 
 .summary-item {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
+  display: grid;
+  grid-template-columns: 44px 1fr auto auto;
+  align-items: center;
   gap: 12px;
   padding: 12px 0;
   border-bottom: 1px solid rgba(148, 163, 184, 0.2);
+}
+.item-thumb {
+  width: 44px;
+  height: 44px;
+  border-radius: 8px;
+  background: rgba(100, 116, 139, 0.25);
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+}
+
+.item-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
 }
 
 .summary-item:last-child {

@@ -1,4 +1,4 @@
-/* Fondo con blobs suaves usando #F2AE30 (ámbar) y #F24F13 (naranja) */
+
 :root{
   --bg1:#F2AE30;
   --bg2:#F24F13;
@@ -16,5 +16,4 @@ body{
   min-height:100vh;
 }
 
-/* Contraste de títulos sobre fondo claro */
 h1, .page-title{ color:#0f172a; }
