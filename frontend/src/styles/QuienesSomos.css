@@ -12,7 +12,7 @@ body::before {
 
 /* Aplicar gradiente suave a todo */
 body {
-  background: linear-gradient(to right, #ff8a5c 0%, #ffa978 25%, #ffb886 50%, #d4959e 75%, #c88ba8 100%) !important;
+  background: linear-gradient(to right, #1e1b4b 0%, #312e81 25%, #4c1d95 50%, #6b21a8 75%, #581c87 100%) !important;
   background-attachment: fixed !important;
 }
 
@@ -41,23 +41,24 @@ body {
   align-items: center;
   justify-content: flex-start;
   max-width: 800px;
-  background-color: #fff;
+  background-color: rgba(15, 23, 42, 0.85);
   border-radius: 14px;
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
   padding: 40px;
   width: 100%;
+  border: 1px solid rgba(148, 163, 184, 0.3);
 }
 
 .texto {
   width: 100%;
-  color: #24325f;
+  color: #cbd5e1;
   font-size: 17px;
   line-height: 1.7;
 }
 
 .texto h2 {
   margin-bottom: 20px;
-  color: #24325f;
+  color: #f1f5f9;
   font-size: 28px;
 }
 

@@ -4,6 +4,7 @@ import "../styles/landing.css";
 import "../styles/commons.css";
 import Footer from "../components/Footer";
 import Header from "../components/Header";
+import StaticParticles from "../components/StaticParticles";
 import logo from "../media/logo-transparente.png";
 
 export default function Landing() {
@@ -11,14 +12,12 @@ export default function Landing() {
         <>
             <Header />
 
-            <main>
+            <main className="landing-main">
                 <section className="hero">
                     <div className="hero-text">
                         <img src={logo} alt="Logo" className="hero-logo" />
-                        <h1>Bienvenido a nuestra tienda de ...</h1>
                         <p>
-                            INTRODUCCIÓN. Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
-                            Duis finibus iaculis risus at lobortis. Nullam ut luctus massa. 
+                            Descubre la mejor tecnología, al mejor precio y en el mejor lugar. 
                         </p>
                         <Link to="/catalogo">
                             <button className="btn">Catálogo</button>

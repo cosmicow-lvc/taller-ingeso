@@ -88,7 +88,7 @@
   /* ===== BODY ===== */
   body {
     margin: 0;
-    background: linear-gradient(120deg, #ff7a4f, #ff9f68);
+    background: linear-gradient(120deg, #1e1b4b, #4c1d95);
   }
 
   /* ===== CONTENEDOR PRINCIPAL ===== */
@@ -108,9 +108,10 @@
     align-items: center;
     width: 340px;
     padding: 30px 25px;
-    background-color: #fff;
+    background-color: rgba(15, 23, 42, 0.85);
     border-radius: 14px;
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+    border: 1px solid rgba(148, 163, 184, 0.3);
   }
 
   /* ===== FOTO ===== */
@@ -131,7 +132,7 @@
   /* ===== CAMPOS ===== */
   label {
     align-self: flex-start;
-    color: #24325f;
+    color: #cbd5e1;
     font-weight: 600;
     font-size: 14px;
     margin-bottom: 5px;
@@ -141,19 +142,25 @@
     width: 100%;
     padding: 10px;
     margin-bottom: 18px;
-    border: 1px solid #ccd3eb;
+    border: 1px solid rgba(148, 163, 184, 0.3);
     border-radius: 8px;
     font-size: 14px;
     transition: border-color 0.2s;
+    background: rgba(30, 41, 59, 0.6);
+    color: #f1f5f9;
+  }
+
+  .input-principal::placeholder {
+    color: #94a3b8;
   }
 
   .input-principal:focus {
-    border-color: #3451e6;
+    border-color: #6366f1;
     outline: none;
   }
 
   h2 {
-    color: #24325f;
+    color: #f1f5f9;
     margin-bottom: 20px;
   }
 
@@ -167,16 +174,16 @@
     display: flex;
     justify-content: space-between;
     padding: 12px 0;
-    border-bottom: 1px solid #e0e0e0;
+    border-bottom: 1px solid rgba(148, 163, 184, 0.3);
   }
 
   .info-item strong {
-    color: #24325f;
+    color: #f1f5f9;
     font-weight: 600;
   }
 
   .info-item span {
-    color: #555;
+    color: #cbd5e1;
   }
 
   /* ===== BOTONES ===== */
@@ -254,7 +261,7 @@
   .form-group-edit label {
     display: block;
     margin-bottom: 6px;
-    color: #24325f;
+    color: #cbd5e1;
     font-weight: 600;
     font-size: 14px;
   }
@@ -262,12 +269,12 @@
   .separador-password {
     width: 100%;
     padding: 16px 0 8px 0;
-    border-top: 2px solid #e0e0e0;
+    border-top: 2px solid rgba(148, 163, 184, 0.3);
     margin: 12px 0;
   }
 
   .separador-password h3 {
-    color: #24325f;
+    color: #f1f5f9;
     font-size: 16px;
     font-weight: 600;
   }

@@ -4,9 +4,9 @@
    =========================================== */
 
 :root{
-  /* Fondo naranja del login */
-  --bg1:#F0935A;   /* melocotón medio */
-  --bg2:#EB6B3D;   /* naranja rojizo más profundo */
+  /* Fondo azul-morado oscuro futurista */
+  --bg1:#1e1b4b;
+  --bg2:#4c1d95;
 
   /* Botón azul del login */
   --primary-1:#3E57F2;
@@ -14,15 +14,15 @@
   --primary-ring: rgba(15,49,242,.22);
 
   /* Superficies */
-  --panel:#ffffff;
-  --panel-2:#f8fafc;
-  --border:#e6e8ef;
-  --shadow: 0 12px 28px rgba(7,12,40,.12);
+  --panel:rgba(15, 23, 42, 0.85);
+  --panel-2:rgba(30, 41, 59, 0.6);
+  --border:rgba(148, 163, 184, 0.3);
+  --shadow: 0 12px 28px rgba(7,12,40,.3);
 
   /* Texto */
-  --ink:#0f172a;
-  --sub:#6b7280;
-  --link:#0E2FF2;
+  --ink:#f1f5f9;
+  --sub:#cbd5e1;
+  --link:#a5b4fc;
 
   --radius:18px;
 }
@@ -68,11 +68,11 @@ body{ margin:0; font-family:Inter,system-ui,Segoe UI,Roboto,Helvetica,Arial,sans
   width:min(460px, 92vw);
   align-self:center;
   margin:6px auto 10px;
-  color:#0f172a;
+  color:#f1f5f9;
   text-align:left;
 }
-.back a{ color:#0f172a; opacity:.85; text-decoration:none }
-.back a:hover{ text-decoration:underline }
+.back a{ color:#cbd5e1; opacity:.85; text-decoration:none }
+.back a:hover{ text-decoration:underline; color:#f1f5f9 }
 
 /* ===== Tarjeta ===== */
 .auth-card{
@@ -95,14 +95,15 @@ body{ margin:0; font-family:Inter,system-ui,Segoe UI,Roboto,Helvetica,Arial,sans
   padding:10px 12px;
   border:1px solid var(--border);
   border-radius:12px;
-  background:#fff;
+  background:var(--panel-2);
   transition: box-shadow .15s ease, border-color .15s ease;
+  color:var(--ink);
 }
-.field input::placeholder{ color:#9aa3b2 }
+.field input::placeholder{ color:#94a3b8 }
 .field input:focus{
   outline: 0;
-  border-color: var(--primary-2);
-  box-shadow: 0 0 0 3px var(--primary-ring);
+  border-color: #6366f1;
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
 }
 
 /* Mostrar/ocultar con espacio para el botón */
@@ -110,10 +111,10 @@ body{ margin:0; font-family:Inter,system-ui,Segoe UI,Roboto,Helvetica,Arial,sans
 .password input{ padding-right:72px; }
 .password .toggle{
   position:absolute; right:6px; top:50%; transform:translateY(-50%);
-  background:#fff; border:1px solid var(--border); border-radius:10px; padding:6px 10px;
-  font-size:12px; cursor:pointer; color:#1f2937;
+  background:rgba(30, 41, 59, 0.8); border:1px solid var(--border); border-radius:10px; padding:6px 10px;
+  font-size:12px; cursor:pointer; color:#f1f5f9;
 }
-.password .toggle:hover{ background:var(--panel-2) }
+.password .toggle:hover{ background:rgba(30, 41, 59, 0.9) }
 
 /* Mensajes */
 .msg{ display:block; margin-top:6px; color:#b91c1c; font-size:12px }
@@ -126,10 +127,10 @@ a{ color:var(--link) }
 /* ===== Botones ===== */
 .btn{
   width:100%; padding:12px 14px; border-radius:12px; border:1px solid var(--border);
-  background:#fff; cursor:pointer; font-weight:800; margin-top:12px;
-  box-shadow:0 2px 0 rgba(0,0,0,.05);
+  background:var(--panel-2); cursor:pointer; font-weight:800; margin-top:12px;
+  box-shadow:0 2px 0 rgba(0,0,0,.05); color:var(--ink);
 }
-.btn:hover{ background:var(--panel-2) }
+.btn:hover{ background:rgba(30, 41, 59, 0.8) }
 .btn.primary{
   color:#fff; border-color:var(--primary-2);
   background:linear-gradient(180deg, var(--primary-1) 0%, var(--primary-2) 100%);
