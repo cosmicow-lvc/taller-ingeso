@@ -14,28 +14,34 @@
 
 ## Ejecución Linux/Mac:
 Backend -> Abre una terminal:
-
+```
 cd backend
 createdb -U postgres -h localhost -p 5432 taller_ingeso
 //en este punto, te debería solicitar una contraseña -> postgres
 (en /backend/.env se encuentra la contraseña, revisar eso si da problemas)
 npm start
-
+```
 Frontend -> Abre otra terminal:
-
+```
 cd frontend
 npm run dev
-
+```
 ## Ejecución Windows:
 Backend:
+```
 cd backend
-psql -U postgres -c "CREATE DATABASE taller_ingeso;
-//en este punto, te debería solicitar una contraseña -> postgres
-(en /backend/.env se encuentra la contraseña, revisar eso si da problemas)
-create_productos_tables.sql
-seed_productos.sql
-npm start
+npm install
+psql -U postgres -c "CREATE DATABASE taller_ingeso"
+cd src/database/
+psql -U postgres -d taller_ingeso -f create_productos_tables.sql -f seed_productos.sql -f create_usuarios_table.sql  -f create_compras_table.sql -f create_compras_table.sql -f create_consultas_table.sql
+cd ../..
+npm run start
+```
+Todos los comandos que sean de PSQL piden la contraseña del usuario postgres despues de ejecutarlos
 
 Frontend:
+```
 cd frontend
+npm install
 npm run dev
+```
