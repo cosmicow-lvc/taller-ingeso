@@ -4,6 +4,37 @@ import db from "../db.js";
 
 const router = express.Router();
 
+// Middleware para verificar token JWT
+export function verifyToken(req, res, next) {
+  try {
+    const authHeader = req.headers["authorization"];
+    const token = authHeader && authHeader.split(" ")[1];
+
+    if (!token) {
+      return res.status(401).json({ error: "Token no proporcionado" });
+    }
+
+    // Para propósitos de demostración, simplemente decodificamos el token
+    try {
+      const decoded = JSON.parse(Buffer.from(token, 'base64').toString());
+      console.log("Token decodificado:", decoded, "tipo:", typeof decoded.usuario_id);
+      if (!decoded.usuario_id) {
+        return res.status(401).json({ error: "Token sin usuario_id" });
+      }
+      const usuarioId = Number(decoded.usuario_id);
+      console.log("Usuario ID convertido:", usuarioId, "tipo:", typeof usuarioId);
+      req.usuario_id = usuarioId;
+      next();
+    } catch (err) {
+      console.error("Token decode error:", err.message);
+      return res.status(401).json({ error: "Token inválido" });
+    }
+  } catch (error) {
+    console.error("Error al verificar token:", error.message);
+    return res.status(401).json({ error: "Error al verificar token" });
+  }
+}
+
 // POST /auth/registro → Registrar nuevo usuario
 router.post("/registro", async (req, res) => {
     try {
@@ -111,8 +142,12 @@ router.post("/login", async (req, res) => {
         // Login exitoso - eliminar password_hash de la respuesta
         delete usuario.password_hash;
 
+        // Generar token (base64 encoded JSON con usuario_id)
+        const token = Buffer.from(JSON.stringify({ usuario_id: usuario.id })).toString('base64');
+
         res.json({
             message: "Login exitoso",
+            token,
             usuario
         });
 

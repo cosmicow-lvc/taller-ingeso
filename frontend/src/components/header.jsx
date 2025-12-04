@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useCart } from "../context/CartContext";
 import Cart from "./Cart";
 import cartSvg from "../media/shopping-cart-outline.svg";
@@ -8,6 +8,9 @@ import logo from "../media/logo-transparente.png";
 export default function Header() {
   const { totalCount, toggle } = useCart();
   const [usuario, setUsuario] = useState(null);
+  const navigate = useNavigate();
+  const location = useLocation();
+  const [search, setSearch] = useState("");
 
   useEffect(() => {
     try {
@@ -29,6 +32,24 @@ export default function Header() {
     return () => window.removeEventListener("storage", onStorage);
   }, []);
 
+  useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    const q = params.get("q") ?? "";
+    setSearch(q);
+  }, [location.search]);
+
+  function handleSearchChange(e){
+    const value = e.target.value;
+    setSearch(value);
+    const q = value.trim();
+    if (q.length === 0) {
+      navigate("/catalogo", { replace: false });
+    } else {
+      const sp = new URLSearchParams({ q });
+      navigate(`/catalogo?${sp.toString()}`);
+    }
+  }
+
   return (
     <>
       <header className="navbar">
@@ -41,7 +62,13 @@ export default function Header() {
           <Link to="/contacto">Contáctanos</Link>
         </nav>
         <div className="h-derecha">
-          <input type="text" id="barraBuscarProd" placeholder="Buscar Producto" />
+          <input
+            type="search"
+            id="barraBuscarProd"
+            placeholder="Buscar Producto"
+            value={search}
+            onChange={handleSearchChange}
+          />
           {usuario ? (
             <Link to="/perfil">{usuario?.nombre || "Perfil"}</Link>
           ) : (

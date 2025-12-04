@@ -1,4 +1,5 @@
 import { useMemo, useState, useEffect } from "react";
+import { useSearchParams } from "react-router-dom";
 import "../styles/estilo.css";
 import ProductDetail from "../components/ProductDetail";
 import Header from "../components/Header";
@@ -42,6 +43,23 @@ export default function Catalogo() {
   const [products, setProducts] = useState([]);
   const [status, setStatus] = useState({ loading: true, error: "" });
   const gridMessageStyle = { gridColumn: "1 / -1", textAlign: "center", padding: "2rem 0" };
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  // Sync inicial desde URL y mantener en sincronía
+  useEffect(() => {
+    const qParam = searchParams.get("q") ?? "";
+    setQ(qParam);
+  }, [searchParams]);
+
+  useEffect(() => {
+    const curr = searchParams.get("q") ?? "";
+    if ((q ?? "") !== curr) {
+      const next = new URLSearchParams(searchParams);
+      if (q && q.trim() !== "") next.set("q", q);
+      else next.delete("q");
+      setSearchParams(next, { replace: false });
+    }
+  }, [q]);
 
   useEffect(() => {
     let cancelled = false;
@@ -152,6 +170,16 @@ export default function Catalogo() {
         <h1 className="page-title">Catálogo</h1>
 
         <div className="toolbar">
+          {/* BÚSQUEDA SUPERIOR SINCRONIZADA CON NAVBAR */}
+          <input
+            className="search-in-filter"
+            type="search"
+            placeholder="Buscar producto…"
+            value={q}
+            onChange={(e)=>setQ(e.target.value.trimStart())}
+            aria-label="Buscar producto"
+            style={{ maxWidth: 280, marginRight: 12 }}
+          />
           <button className="filter-toggle" onClick={()=>setMobileFiltersOpen(true)} aria-controls="filtersDrawer" aria-expanded={mobileFiltersOpen}>☰ Filtros</button>
 
           {/* CHIPS DE FILTROS ACTIVOS */}

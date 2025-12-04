@@ -27,8 +27,9 @@ export default function Login() {
       const data = await response.json();
       
       if (response.ok) {
-        // Guardar información del usuario en localStorage
+        // Guardar información del usuario y token en localStorage
         localStorage.setItem("usuario", JSON.stringify(data.usuario));
+        localStorage.setItem("token", data.token);
         // Navegar al perfil o landing
         navigate("/perfil");
       } else {

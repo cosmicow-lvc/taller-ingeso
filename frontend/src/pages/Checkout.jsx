@@ -5,6 +5,8 @@ import Header from "../components/Header";
 import Footer from "../components/Footer";
 import "../styles/checkout.css";
 
+const API_URL = import.meta.env.VITE_API_URL ?? "http://localhost:3000";
+
 export default function Checkout() {
   const navigate = useNavigate();
   const { items, totalPrice, clearCart } = useCart();
@@ -22,6 +24,21 @@ export default function Checkout() {
   });
   const [isProcessing, setIsProcessing] = useState(false);
   const [paymentSuccess, setPaymentSuccess] = useState(false);
+
+  const fillMockData = () => {
+    setFormData({
+      fullName: "Juan Pérez García",
+      email: "juan@example.com",
+      phone: "+56 9 1234 5678",
+      address: "Calle Principal 123, Apto 4B",
+      city: "Santiago",
+      postalCode: "8320000",
+      cardName: "JUAN PEREZ",
+      cardNumber: "4111 1111 1111 1111",
+      expiryDate: "12/26",
+      cvv: "123"
+    });
+  };
 
   if (items.length === 0 && !paymentSuccess) {
     return (
@@ -115,12 +132,81 @@ export default function Checkout() {
 
     setIsProcessing(true);
 
-    // Simulamos el procesamiento del pago
-    setTimeout(() => {
+    try {
+      // Obtener token de autenticación
+      const token = localStorage.getItem("token");
+      console.log("Token del localStorage:", token);
+      
+      if (!token) {
+        alert("Por favor inicia sesión para completar la compra");
+        setIsProcessing(false);
+        navigate("/login");
+        return;
+      }
+
+      // Guardar la compra en el backend
+      // Sanitizar items para enviar solo propiedades necesarias
+      const sanitizedItems = items.map(item => ({
+        productId: item.productId,
+        variantId: item.variantId,
+        name: item.name,
+        price: item.price,
+        qty: item.qty,
+        brand: item.brand,
+        category: item.category,
+        meta: item.meta ? { image: item.meta.image } : undefined
+      }));
+
+      console.log("Items sanitizados:", JSON.stringify(sanitizedItems, null, 2));
+      if (sanitizedItems[0]) {
+        console.log("Item 0 price:", sanitizedItems[0].price, "tipo:", typeof sanitizedItems[0].price);
+        console.log("Item 0 qty:", sanitizedItems[0].qty, "tipo:", typeof sanitizedItems[0].qty);
+      }
+
+      const compraData = {
+        nombre_completo: formData.fullName,
+        email: formData.email,
+        telefono: formData.phone,
+        direccion: formData.address,
+        ciudad: formData.city,
+        codigo_postal: formData.postalCode,
+        monto_total: totalPrice,
+        items: sanitizedItems
+      };
+
+      console.log("Enviando compra completa:", JSON.stringify(compraData, null, 2));
+
+      console.log("Enviando compra:", compraData);
+      console.log("Header Authorization:", `Bearer ${token}`);
+
+      const response = await fetch(`${API_URL}/compras`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${token}`
+        },
+        body: JSON.stringify(compraData)
+      });
+
+      console.log("Response status:", response.status);
+      const result = await response.json();
+      console.log("Response data:", result);
+
+      if (!response.ok) {
+        throw new Error(result.error || "Error al guardar la compra");
+      }
+      
+      // Simulamos un pequeño delay de procesamiento
+      setTimeout(() => {
+        setIsProcessing(false);
+        setPaymentSuccess(true);
+        clearCart();
+      }, 800);
+    } catch (error) {
+      console.error("Error:", error);
+      alert("Error al procesar la compra: " + error.message);
       setIsProcessing(false);
-      setPaymentSuccess(true);
-      clearCart();
-    }, 2000);
+    }
   };
 
   if (paymentSuccess) {
@@ -169,7 +255,24 @@ export default function Checkout() {
             <form onSubmit={handlePayment}>
               {/* Sección de envío */}
               <div className="form-section">
-                <h3>Información de envío</h3>
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "20px" }}>
+                  <h3>Información de envío</h3>
+                  <button 
+                    type="button" 
+                    onClick={fillMockData}
+                    style={{
+                      padding: "6px 12px",
+                      backgroundColor: "transparent",
+                      border: "1px solid var(--text)",
+                      borderRadius: "4px",
+                      cursor: "pointer",
+                      fontSize: "12px",
+                      color: "var(--text)"
+                    }}
+                  >
+                    Mock datos
+                  </button>
+                </div>
                 <div className="form-group">
                   <label>Nombre completo *</label>
                   <input

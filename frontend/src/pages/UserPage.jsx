@@ -4,11 +4,16 @@ import "../styles/user.css";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 
+const API_URL = import.meta.env.VITE_API_URL ?? "http://localhost:3000";
+
 export default function UserPage() {
   const navigate = useNavigate();
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const [isEditing, setIsEditing] = useState(false);
+  const [compras, setCompras] = useState([]);
+  const [comprasLoading, setComprasLoading] = useState(false);
+  const [selectedCompra, setSelectedCompra] = useState(null);
   const [editForm, setEditForm] = useState({
     nombre: "",
     apellido: "",
@@ -49,6 +54,36 @@ export default function UserPage() {
       setLoading(false);
     }
   }, [navigate]);
+
+  // Cargar compras del usuario
+  useEffect(() => {
+    const fetchCompras = async () => {
+      try {
+        const token = localStorage.getItem("token");
+        if (!token) return;
+
+        setComprasLoading(true);
+        const response = await fetch(`${API_URL}/compras`, {
+          headers: {
+            "Authorization": `Bearer ${token}`
+          }
+        });
+
+        if (response.ok) {
+          const data = await response.json();
+          setCompras(data);
+        }
+      } catch (error) {
+        console.error("Error al cargar compras:", error);
+      } finally {
+        setComprasLoading(false);
+      }
+    };
+
+    if (user) {
+      fetchCompras();
+    }
+  }, [user]);
 
   const handleCerrarSesion = () => {
     localStorage.removeItem("usuario");
@@ -372,6 +407,97 @@ export default function UserPage() {
                 </button>
               </div>
             </form>
+          )}
+        </div>
+
+        {/* Sección de Compras */}
+        <div className="compras-box">
+          <h2>Mis Compras</h2>
+
+          {comprasLoading ? (
+            <p>Cargando compras...</p>
+          ) : compras.length === 0 ? (
+            <p style={{ textAlign: "center", color: "var(--sub)", padding: "20px" }}>
+              No tienes compras registradas aún.
+              <br />
+              <Link to="/catalogo" style={{ color: "var(--accent)" }}>
+                Ir al catálogo
+              </Link>
+            </p>
+          ) : (
+            <>
+              <div className="compras-lista">
+                {compras.map((compra) => (
+                  <div key={compra.id} className="compra-card">
+                    <div className="compra-header">
+                      <div>
+                        <h4 className="compra-id">Compra #{compra.id}</h4>
+                        <p className="compra-fecha">
+                          {new Date(compra.fecha_compra).toLocaleDateString('es-ES', {
+                            year: 'numeric',
+                            month: 'long',
+                            day: 'numeric'
+                          })}
+                        </p>
+                      </div>
+                      <div className="compra-total">
+                        <p className="monto">${parseFloat(compra.monto_total).toFixed(2)}</p>
+                        <span className={`estado ${compra.estado}`}>
+                          {compra.estado.charAt(0).toUpperCase() + compra.estado.slice(1)}
+                        </span>
+                      </div>
+                    </div>
+
+                    {selectedCompra === compra.id && (
+                      <div className="compra-detalle">
+                        <h5>Información de envío</h5>
+                        <p><strong>Nombre:</strong> {compra.nombre_completo}</p>
+                        <p><strong>Email:</strong> {compra.email}</p>
+                        <p><strong>Teléfono:</strong> {compra.telefono || 'N/A'}</p>
+                        <p><strong>Dirección:</strong> {compra.direccion}</p>
+                        <p><strong>Ciudad:</strong> {compra.ciudad} {compra.codigo_postal}</p>
+
+                        <h5 style={{ marginTop: "15px" }}>Productos</h5>
+                        <div className="lineas-detalle">
+                          {compra.lineas && compra.lineas.map((linea, idx) => (
+                            <div key={idx} className="linea-detalle">
+                              {linea.imagen && (
+                                <img 
+                                  src={linea.imagen} 
+                                  alt={linea.nombre_producto}
+                                  style={{ width: "50px", height: "50px", objectFit: "contain" }}
+                                />
+                              )}
+                              <div style={{ flex: 1 }}>
+                                <p className="linea-nombre">{linea.nombre_producto}</p>
+                                {linea.marca && (
+                                  <p style={{ fontSize: "12px", color: "var(--sub)" }}>
+                                    {linea.marca} • {linea.categoria}
+                                  </p>
+                                )}
+                              </div>
+                              <div className="linea-cantidad">
+                                <p>x{linea.cantidad}</p>
+                                <p className="linea-precio">${parseFloat(linea.subtotal).toFixed(2)}</p>
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+
+                    <button
+                      className="btn-detalle"
+                      onClick={() =>
+                        setSelectedCompra(selectedCompra === compra.id ? null : compra.id)
+                      }
+                    >
+                      {selectedCompra === compra.id ? "Ocultar detalles" : "Ver detalles"}
+                    </button>
+                  </div>
+                ))}
+              </div>
+            </>
           )}
         </div>
       </main>
