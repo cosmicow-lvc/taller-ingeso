@@ -2,12 +2,19 @@ import { useEffect, useMemo, useState } from "react";
 import StarRating from "../components/StarRating.jsx";
 
 export default function ProductDetail({ product, onClose, onAdd }){
-  const [variantId, setVariantId] = useState(product.variants[0]?.id);
+  const variants = product?.variants ?? [];
+  const reviews = product?.reviews ?? [];
+  const [variantId, setVariantId] = useState(variants[0]?.id);
   const [qty, setQty] = useState(1);
 
+  useEffect(() => {
+    setVariantId(variants[0]?.id);
+    setQty(1);
+  }, [product]);
+
   const variant = useMemo(
-    () => product.variants.find(v => v.id === variantId) || product.variants[0],
-    [product, variantId]
+    () => variants.find(v => v.id === variantId) || variants[0],
+    [variants, variantId]
   );
 
   useEffect(()=>{
@@ -54,7 +61,7 @@ export default function ProductDetail({ product, onClose, onAdd }){
             <div className="variant-block">
               <div className="variant-title">Variantes</div>
               <div className="variant-pills" role="radiogroup" aria-label="Variantes del producto">
-                {product.variants.map(v => (
+                {variants.map(v => (
                   <label key={v.id} className={`pill ${variantId===v.id?"active":""}`}>
                     <input
                       type="radio"
@@ -86,8 +93,8 @@ export default function ProductDetail({ product, onClose, onAdd }){
 
             <div className="reviews">
               <div className="reviews-title">Reseñas</div>
-              {product.reviews.length === 0 && <div className="review empty">Aún sin reseñas.</div>}
-              {product.reviews.map(r => (
+              {reviews.length === 0 && <div className="review empty">Aún sin reseñas.</div>}
+              {reviews.map(r => (
                 <div key={r.id} className="review">
                   <div className="r-head">
                     <strong>{r.user}</strong>

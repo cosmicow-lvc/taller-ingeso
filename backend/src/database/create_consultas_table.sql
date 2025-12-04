@@ -1,4 +1,4 @@
--- Tabla para almacenar las consultas de los clientes
+
 CREATE TABLE IF NOT EXISTS consultas (
     id SERIAL PRIMARY KEY,
     nombre VARCHAR(255) NOT NULL,
@@ -11,12 +11,10 @@ CREATE TABLE IF NOT EXISTS consultas (
     fecha_respuesta TIMESTAMP
 );
 
--- Índices para mejorar el rendimiento
 CREATE INDEX IF NOT EXISTS idx_consultas_email ON consultas(email);
 CREATE INDEX IF NOT EXISTS idx_consultas_respondida ON consultas(respondida);
 CREATE INDEX IF NOT EXISTS idx_consultas_fecha ON consultas(fecha_creacion DESC);
 
--- Comentarios para documentación
 COMMENT ON TABLE consultas IS 'Almacena las consultas enviadas por clientes a través del formulario de contacto';
 COMMENT ON COLUMN consultas.respondida IS 'Indica si la consulta ha sido respondida por un administrador';
 COMMENT ON COLUMN consultas.fecha_respuesta IS 'Fecha en que se respondió la consulta';

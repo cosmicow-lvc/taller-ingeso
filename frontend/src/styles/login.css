@@ -12,7 +12,7 @@ body {
   background: linear-gradient(120deg, #ff7a4f, #ff9f68); /* fondo cálido */
 }
 
-/* ===== CONTENEDOR PRINCIPAL ===== */
+/* ===== CONTENEDOR  ===== */
 .container {
   display: flex;
   flex-direction: column;
@@ -22,7 +22,7 @@ body {
   position: relative;
 }
 
-/* ===== BOTÓN VOLVER ===== */
+/* ===== VOLVER ===== */
 .volver {
   position: absolute;
   top: 20px;

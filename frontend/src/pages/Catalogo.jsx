@@ -4,91 +4,8 @@ import ProductDetail from "../components/ProductDetail";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import { useCart } from "../context/CartContext";
-import auricularesNovaImg from "../media/product-images/auriculares-novax.png";
-import tecladoOrionImg from "../media/product-images/teclado-orion-k7.png";
-import mouseAcmeImg from "../media/product-images/mouse-acme.pro.png";
-import monitorZettaImg from "../media/product-images/monitor-zetta.png";
 
-// ==== Datos de ejemplo con variantes y reseñas ====
-const products = [
-  {
-    id: 1,
-    name: "Auriculares Nova X",
-    description:
-      "Auriculares inalámbricos con cancelación de ruido activa, 30h de batería y carga rápida.",
-    brand: "Nova",
-    category: "Accesorios",
-    rating: 4.6,
-    price: 49,
-    image: auricularesNovaImg,
-    variants: [
-      { id: "negro", name: "Negro", price: 49, stock: 12, image: auricularesNovaImg },
-      { id: "blanco", name: "Blanco", price: 52, stock: 8, image: auricularesNovaImg },
-      { id: "azul", name: "Azul", price: 55, stock: 5, image: auricularesNovaImg },
-    ],
-    reviews: [
-      { id: "r1", user: "Ana", rating: 5, comment: "Se escuchan increíble y la batería dura mucho.", date: "2025-06-01" },
-      { id: "r2", user: "Luis", rating: 4, comment: "Muy cómodos, el estuche es compacto.", date: "2025-06-18" },
-    ],
-  },
-  {
-    id: 2,
-    name: "Teclado Orion K7",
-    description:
-      "Teclado mecánico compacto 75% con switches hot-swap y retroiluminación RGB.",
-    brand: "Orion",
-    category: "CAT 1",
-    rating: 4.3,
-    price: 79,
-    image: tecladoOrionImg,
-    variants: [
-      { id: "red", name: "Switch Rojo", price: 79, stock: 6, image: tecladoOrionImg },
-      { id: "blue", name: "Switch Azul", price: 79, stock: 9, image: tecladoOrionImg },
-      { id: "brown", name: "Switch Marrón", price: 85, stock: 3, image: tecladoOrionImg },
-    ],
-    reviews: [
-      { id: "r3", user: "Majo", rating: 5, comment: "El tamaño es perfecto para el escritorio.", date: "2025-05-02" },
-      { id: "r4", user: "Tomás", rating: 3, comment: "Buen producto, las keycaps podrían ser mejores.", date: "2025-07-10" },
-    ],
-  },
-  {
-    id: 3,
-    name: "Mouse Acme Pro",
-    description:
-      "Mouse ergonómico de alto rendimiento con sensor 26K y 5 perfiles.",
-    brand: "Acme",
-    category: "CAT 2",
-    rating: 4.8,
-    price: 39,
-    image: mouseAcmeImg,
-    variants: [
-      { id: "wired", name: "Cableado", price: 39, stock: 20, image: mouseAcmeImg },
-      { id: "wireless", name: "Inalámbrico", price: 59, stock: 7, image: mouseAcmeImg },
-    ],
-    reviews: [
-      { id: "r5", user: "Sofía", rating: 5, comment: "Preciso y muy cómodo, ideal para jugar.", date: "2025-04-14" },
-    ],
-  },
-  {
-    id: 4,
-    name: "Monitor Zetta 27” QHD",
-    description:
-      "Panel IPS 27 pulgadas 2560×1440 a 165Hz con FreeSync y peana ajustable.",
-    brand: "Zetta",
-    category: "CAT 1",
-    rating: 4.5,
-    price: 269,
-    image: monitorZettaImg,
-    variants: [
-      { id: "165", name: "165 Hz", price: 269, stock: 4, image: monitorZettaImg },
-      { id: "240", name: "240 Hz", price: 339, stock: 2, image: monitorZettaImg },
-    ],
-    reviews: [
-      { id: "r6", user: "Pablo", rating: 5, comment: "Colores increíbles y fluidez total.", date: "2025-03-03" },
-      { id: "r7", user: "Vale", rating: 4, comment: "Buen brillo; los altavoces integrados son meh.", date: "2025-06-22" },
-    ],
-  },
-];
+const API_URL = import.meta.env.VITE_API_URL ?? "http://localhost:3000";
 
 export default function Catalogo() {
   // ===== Drawer móvil =====
@@ -122,8 +39,41 @@ export default function Catalogo() {
   const [minPriceInput, setMinPriceInput] = useState("");
   const [maxPriceInput, setMaxPriceInput] = useState("");
   const [open, setOpen] = useState({ category:true, price:false, q:false, brand:false, rating:false });
+  const [products, setProducts] = useState([]);
+  const [status, setStatus] = useState({ loading: true, error: "" });
+  const gridMessageStyle = { gridColumn: "1 / -1", textAlign: "center", padding: "2rem 0" };
 
-  const brands = useMemo(() => [...new Set(products.map(p => p.brand))].sort(), []);
+  useEffect(() => {
+    let cancelled = false;
+    async function loadProducts(){
+      setStatus({ loading: true, error: "" });
+      try {
+        const response = await fetch(`${API_URL}/productos`);
+        if (!response.ok) throw new Error("Error al consultar el catálogo");
+        const payload = await response.json();
+        if (!cancelled){
+          setProducts(payload);
+          setStatus({ loading: false, error: "" });
+        }
+      } catch (error) {
+        if (!cancelled) setStatus({ loading: false, error: "No pudimos cargar el catálogo." });
+      }
+    }
+    loadProducts();
+    return () => { cancelled = true; };
+  }, []);
+
+  const { loading, error } = status;
+
+  const brands = useMemo(() => {
+    const values = products.map((p) => p.brand).filter(Boolean);
+    return [...new Set(values)].sort((a, b) => a.localeCompare(b, "es", { sensitivity: "base" }));
+  }, [products]);
+
+  const categories = useMemo(() => {
+    const values = products.map((p) => p.category).filter(Boolean);
+    return [...new Set(values)].sort((a, b) => a.localeCompare(b, "es", { sensitivity: "base" }));
+  }, [products]);
 
   const filtered = useMemo(() => {
     const min = minPrice ?? -Infinity;
@@ -144,7 +94,7 @@ export default function Catalogo() {
     if (sort==="name-asc") return list.sort(byName);
     if (sort==="name-desc") return list.sort((a,b)=>byName(b,a));
     return list.sort(byRating);
-  }, [selectedCategories,selectedBrands,minPrice,maxPrice,q,rating,sort]);
+  }, [products, selectedCategories,selectedBrands,minPrice,maxPrice,q,rating,sort]);
 
   // ===== Chips (eliminar filtros) =====
   const chips = useMemo(() => {
@@ -245,7 +195,7 @@ export default function Catalogo() {
                 </button>
                 <div className="acc-content">
                   <div>
-                    {["CAT 1","CAT 2","Accesorios"].map(c=>{
+                    {(categories.length ? categories : ["CAT 1","CAT 2","Accesorios"]).map(c=>{
                       const id=`cat-${c}`;
                       return (
                         <div className="check" key={c}>
@@ -324,7 +274,22 @@ export default function Catalogo() {
           {/* Grid */}
           <main>
             <div id="grid" className="grid" aria-live="polite">
-              {filtered.map((p) => (
+              {loading && (
+                <div className="grid-message" role="status" style={gridMessageStyle}>
+                  Cargando catálogo…
+                </div>
+              )}
+              {!loading && error && (
+                <div className="grid-message" role="alert" style={gridMessageStyle}>
+                  {error}
+                </div>
+              )}
+              {!loading && !error && filtered.length === 0 && (
+                <div className="grid-message" style={gridMessageStyle}>
+                  No encontramos productos con los filtros actuales.
+                </div>
+              )}
+              {!loading && !error && filtered.map((p) => (
                 <article className="card" key={p.id}>
                   <button
                     type="button"
@@ -341,7 +306,7 @@ export default function Catalogo() {
                       <button className="btn primary" onClick={()=>setDetailProduct(p)}>Ver</button>
                     </div>
                     <div style={{ fontSize: 12, color: "var(--sub)" }}>
-                      {p.brand} • {p.category} • {"★".repeat(Math.round(p.rating))}
+                      {p.brand} • {p.category} • {"★".repeat(Math.round(p.rating || 0))}
                     </div>
                   </div>
                 </article>
